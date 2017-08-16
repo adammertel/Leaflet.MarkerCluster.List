@@ -1,10 +1,12 @@
 
 /* global L:true */
+/* eslint no-underscore-dangle: 0 */
+
+'use strict';
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
-    // Buffer single addLayer and removeLayer requests for efficiency.
-    list: true // in ms.
+    list: true
   },
 
   initialize(options) {
@@ -18,6 +20,18 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list.addTo(map);
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
+  },
+
+  refreshList(children) {
+    this.list.refreshContent(children);
+  }
+});
+
+L.MarkerCluster.include({
+  spiderfy() {
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+    group.refreshList(childMarkers);
   }
 });
 
@@ -43,16 +57,16 @@ L.MarkerCluster.List = L.Control.extend({
     return container;
   },
 
-  _moveContainer(map) {
+  moveContainer(map) {
     const mapDom = map.getContainer();
     const controlDom = this.getContainer();
     mapDom.appendChild(controlDom);
   },
 
   refreshContent(elements) {
-    const rows = elements.map((element, ei) => `<tr>${ei}</tr>`);
-
-    this.innerHTML = `<table>${rows.join('')}</table>`;
+    const rows = elements.map((element, ei) => `<tr><td>${ei}</td></tr>`);
+    const html = `<table><tbody>${rows.join('')}</tbody></table>`;
+    this.getContainer().innerHTML = html;
   }
 
 });
