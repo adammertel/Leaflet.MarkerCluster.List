@@ -5,12 +5,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.Default.css" />
   <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
+  <link href="../dist/leaflet-markercluster-list.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/leaflet.markercluster.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  <script src="../dist/leaflet-markercluster.list.src.js"></script>
+  <script src="../dist/leaflet-markercluster-list.src.js"></script>
 
 </head>
 
@@ -148,9 +149,7 @@
         list: true
       }
 
-      console.log(options)
-
-      var markers = L.markerClusterGroup(options);
+      var markers = L.markerClusterGroup.withList(options);
 
       // parse data
       for (var di in data) {

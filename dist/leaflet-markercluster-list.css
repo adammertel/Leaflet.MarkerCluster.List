@@ -1,0 +1,9 @@
+.markercluster-list{
+    position: absolute;
+    left: 55px;
+    right: 230px;
+    top: 10px;
+    z-index: 9999;
+    background-color: grey;
+    color: whitesmoke
+}

@@ -16,7 +16,7 @@
     "babel-plugin-transform-remove-console": "^6.8.4",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
-    "copyfiles": "^1.0.0",
+    "copyfiles": "^1.2.0",
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
@@ -32,10 +32,11 @@
   "scripts": {
     "create-dist-folder": "mkdirp dist",
     "eslint": "eslint --fix src",
-    "babel": "babel src --out-file dist/leaflet-markercluster.list.src.js",
-    "minify": "babel --plugins transform-remove-console dist/leaflet-markercluster.list.src.js --out-file dist/leaflet-markercluster.list.js --minified",
-    "onchange": "onchange src/**/*.js -- npm run build",
-    "build": "run-s create-dist-folder eslint babel minify",
-    "start": "run-p create-dist-folder onchange build"
+    "babel": "babel src --out-file dist/leaflet-markercluster-list.src.js",
+    "minify": "babel --plugins transform-remove-console dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified",
+    "move-css": "copyfiles -f src/leaflet-markercluster-list.css dist",
+    "onchange": "onchange src/**/*.** -- npm run build",
+    "build": "run-s create-dist-folder move-css eslint babel minify",
+    "start": "run-p create-dist-folder onchange build move-css"
   }
 }
