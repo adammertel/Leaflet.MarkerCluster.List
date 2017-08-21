@@ -9,12 +9,10 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   initialize(options) {
-    console.log('init');
     L.MarkerClusterGroup.prototype.initialize.call(this, options);
   },
 
   onAdd(map) {
-    console.log('on add');
     this.list = L.markerClusterGroup.list({});
     this.list.addTo(map);
 
@@ -25,15 +23,6 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list.refreshContent(children);
   },
 });
-
-L.MarkerCluster.include({
-  spiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
-    group.refreshList(childMarkers);
-  },
-});
-
 
 L.markerClusterGroup.withList = function (options) {
   return new L.MarkerClusterGroup.WithList(options);
@@ -63,7 +52,10 @@ L.MarkerCluster.List = L.Control.extend({
   },
 
   refreshContent(elements) {
-    const rows = elements.map((element, ei) => (`<tr><td>${ei}</td></tr>`));
+    const rows = elements.map((element, ei) => {
+      console.log(element);
+      return (`<tr><td>${ei}</td></tr>`);
+    });
     const html = `<table><tbody>${rows.join('')}</tbody></table>`;
     this.getContainer().innerHTML = html;
   },
@@ -72,4 +64,22 @@ L.MarkerCluster.List = L.Control.extend({
 
 L.markerClusterGroup.list = function (options) {
   return new L.MarkerCluster.List(options);
+};
+
+
+L.MarkerCluster.ListMarker = L.CircleMarker.extend({
+  options: {
+    id: 0,
+    listText: '',
+  },
+
+  initialize(latlng, options) {
+    this.options.id = options.id;
+    this.options.listText = options.listText;
+    L.CircleMarker.prototype.initialize.call(this, latlng, options);
+  },
+});
+
+L.markerClusterGroup.listMarker = function (latlng, options) {
+  return new L.MarkerCluster.ListMarker(latlng, options);
 };

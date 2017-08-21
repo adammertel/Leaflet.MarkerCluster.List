@@ -98,6 +98,7 @@
     var data = [];
     for (var i=0; i < noTestData; i++) {
       data.push ({
+        id: i,
         x: minX + Math.random() * (maxX - minX),
         y: minY + Math.random() * (maxY - minY),
         type: Math.floor(Math.random() * 6)
@@ -117,8 +118,11 @@
         weight: 2.5,
         opacity : 0.7,
         fillOpacity : 1,
-        className: 'marker'
+        className: 'marker',
+        id: point.id,
+        listText: 'random point ' + point.id
       };
+
     };
 
     $( document ).ready(function(){
@@ -154,8 +158,10 @@
       // parse data
       for (var di in data) {
         var point = data[di];
-
-        var marker = L.circleMarker([point.x, point.y], circleStyle(point));
+        var marker = L.markerClusterGroup.listMarker(
+          [point.x, point.y], 
+          circleStyle(point)
+        );
 
         markers.addLayer(marker);
       }
