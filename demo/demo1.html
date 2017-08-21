@@ -90,7 +90,7 @@
 
     // creates extent for random data
     var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
-    var mapZoom = 12;
+    var mapZoom = 14;
     var mapPosition = [(maxX + minX)/2, (maxY + minY)/2];
 
     // creating random data
@@ -109,16 +109,8 @@
     var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
 
     var circleStyle = function(point) {
-
       return {
         fillColor: colors[point.type],
-        radius : 8,
-        stroke: true,
-        color : 'grey',
-        weight: 2.5,
-        opacity : 0.7,
-        fillOpacity : 1,
-        className: 'marker',
         id: point.id,
         listText: 'random point ' + point.id
       };
@@ -163,9 +155,10 @@
       // parse data
       for (var di in data) {
         var point = data[di];
+        var style = circleStyle(point);
         var marker = L.markerClusterGroup.listMarker(
           [point.x, point.y], 
-          circleStyle(point)
+          style
         );
 
         markers.addLayer(marker);
