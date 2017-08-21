@@ -28,7 +28,7 @@
   #panel {
     position: absolute;
     height: 40%;
-    width: 150px;
+    width: 250px;
     background-color: white;
     bottom: 2%;
     right: 2%;
@@ -37,7 +37,7 @@
     opacity: 0.9;
     border: 15px solid white;
     border-opacity: 0;
-    font-size: 80%;
+    font-size: 100%;
   }
 
   .marker-cluster {
@@ -69,19 +69,13 @@
   <div id="map-content"></div>
 
   <div id="panel">
-    <h4>GENERAL</h4>
-    <p class="select-row">elementsPlacementStrategy:</p>
-    <select id="strategy-select">
-      <option value="default">default</option>
-      <option value="spiral">spiral</option>
-      <option value="one-circle">one-circle</option>
-      <option value="clock">clock</option>
-      <option value="clock-concentric" selected>clock-concentric</option>
-      <option value="concentric">concentric</option>
-      <option value="original-locations">original-locations</option>
-    </select>
-
-    <p><i> Data: random points </i></p>
+    <h4>LEAFLET.MARKERCLUSTER.LIST</h4>
+    
+    <p class="select-row">header:</p>
+    <textarea rows="8" cols="35" class="map-refresh-needed"
+    id="select-header"><b>Clustered elements</b></textarea>
+    
+      <p><i> Data: random points </i></p>
   </div>
   <script>
 
@@ -118,7 +112,7 @@
 
     $( document ).ready(function(){
       refreshMap();
-      $('select').change(function () {
+      $('.map-refresh-needed').change(function () {
       	refreshMap()
       })
     });
@@ -147,7 +141,7 @@
         labelFn: function (el) {
           return '<p>[' + el.options.id + '] ' + el.options.listText + '</p>';
         },
-        header: '<b>Clustered elements</b>',
+        header: $('#select-header').val(),
         showCoverageOnHover: false,
 
       }
