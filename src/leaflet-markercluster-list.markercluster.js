@@ -11,6 +11,17 @@ L.MarkerCluster.include({
   },
 });
 
+L.Map = L.Map.include({
+  _remove: L.Map.prototype.remove,
+  setListContainer(container) {
+    this.listContainer = container;
+  },
+  remove() {
+    this.listContainer.remove();
+    this._remove();
+  },
+});
+
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
@@ -44,7 +55,13 @@ L.MarkerCluster.List = L.Control.extend({
   },
 
   onAdd(map) {
-    const container = L.DomUtil.create('div', 'markercluster-list leaflet-bar');
+    const container = L.DomUtil.create(
+      'div',
+      'markercluster-list leaflet-bar'
+    );
+
+    console.log(map);
+    map.setListContainer(container);
 
     const row = L.DomUtil.create('p', 'marker-cluster-list-row', container);
     row.innerHTML = 'ahoj';
@@ -61,10 +78,10 @@ L.MarkerCluster.List = L.Control.extend({
   },
 
   refreshContent(elements) {
-    const rows = elements.map((element, ei) => {
-      console.log(element);
-      return (`<tr><td>${ei}</td></tr>`);
-    });
+    const rows = elements.map((element, ei) =>
+      `<tr><td>${ei}</td></tr>`
+    );
+
     const html = `<table><tbody>${rows.join('')}</tbody></table>`;
     this.getContainer().innerHTML = html;
   },
