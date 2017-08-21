@@ -11,8 +11,6 @@ L.MarkerCluster.include({
     const childMarkers = this.getAllChildMarkers();
     const group = this._group;
 
-    group.refreshList(childMarkers);
-
     group.fire('spiderfied', {
       cluster: this,
       markers: childMarkers
@@ -60,14 +58,14 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list = L.markerClusterGroup.list(this.options);
     this.list.addTo(map);
 
-    this.on('spiderfied', e => {
+    this.on('spiderfied', data => {
       console.log('spiderfied');
-      // a.layer is actually a cluster
-      //console.log('cluster ' + a.layer.getAllChildMarkers().length);
+      this.refreshList(data.markers);
     });
 
-    this.on('unspiderfied', e => {
+    this.on('unspiderfied', data => {
       console.log('unspiderfied');
+      this.hideList();
       // a.layer is actually a cluster
       //console.log('cluster ' + a.layer.getAllChildMarkers().length);
     });
@@ -76,7 +74,11 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   refreshList(children) {
-    this.list.refreshContent(children);
+    this.list.show(children);
+  },
+
+  hideList() {
+    this.list.hide();
   }
 });
 
@@ -109,16 +111,26 @@ L.MarkerCluster.List = L.Control.extend({
     L.DomUtil.toFront(controlDom);
   },
 
-  refreshContent(elements) {
+  show(elements) {
     const rows = elements.map((element, ei) => {
       let rowClass = ei % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
       rowClass += ' cluster-list-row';
       return `<tr class="${rowClass}"><td>${this.options.labelFn(element)}</td></tr>`;
     });
+
     const thead = this.options.header ? `<thead><tr><th>${this.options.header}</th></tr></thead>` : '';
 
     const html = `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
-    this.getContainer().innerHTML = html;
+
+    this.updateContent(html);
+  },
+
+  updateContent(content) {
+    this.getContainer().innerHTML = content;
+  },
+
+  hide() {
+    this.updateContent('');
   }
 
 });
