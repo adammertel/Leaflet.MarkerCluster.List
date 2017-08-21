@@ -122,7 +122,6 @@
         id: point.id,
         listText: 'random point ' + point.id
       };
-
     };
 
     $( document ).ready(function(){
@@ -150,7 +149,10 @@
       baseTiles.addTo(map);
 
       var options = {
-        list: true
+        list: true,
+        labelFn: function (el) {
+          return '<p>' + el.options.listText + '</p>';
+        } 
       }
 
       var markers = L.markerClusterGroup.withList(options);
@@ -166,7 +168,6 @@
         markers.addLayer(marker);
       }
 
-      console.log(markers)
       map.addLayer(markers);
     }
 

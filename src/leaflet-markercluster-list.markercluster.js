@@ -26,6 +26,7 @@ L.Map = L.Map.include({
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
     list: true,
+    labelFn: (e) => e.options.id
   },
 
   initialize(options) {
@@ -33,7 +34,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   onAdd(map) {
-    this.list = L.markerClusterGroup.list({});
+    this.list = L.markerClusterGroup.list(this.options);
     this.list.addTo(map);
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
@@ -60,7 +61,6 @@ L.MarkerCluster.List = L.Control.extend({
       'markercluster-list leaflet-bar'
     );
 
-    console.log(map);
     map.setListContainer(container);
 
     const row = L.DomUtil.create('p', 'marker-cluster-list-row', container);
@@ -79,7 +79,7 @@ L.MarkerCluster.List = L.Control.extend({
 
   refreshContent(elements) {
     const rows = elements.map((element, ei) =>
-      `<tr><td>${ei}</td></tr>`
+      `<tr><td>${this.options.labelFn(element)}</td></tr>`
     );
 
     const html = `<table><tbody>${rows.join('')}</tbody></table>`;
@@ -94,14 +94,9 @@ L.markerClusterGroup.list = function (options) {
 
 
 L.MarkerCluster.ListMarker = L.CircleMarker.extend({
-  options: {
-    id: 0,
-    listText: '',
-  },
 
   initialize(latlng, options) {
-    this.options.id = options.id;
-    this.options.listText = options.listText;
+    this.options = options;
     L.CircleMarker.prototype.initialize.call(this, latlng, options);
   },
 });

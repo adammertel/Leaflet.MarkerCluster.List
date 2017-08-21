@@ -36,7 +36,7 @@
     "minify": "babel --plugins transform-remove-console dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified",
     "move-css": "copyfiles -f src/leaflet-markercluster-list.css dist",
     "onchange": "onchange src/**/*.** -- npm run build",
-    "build": "run-s create-dist-folder move-css eslint babel minify",
+    "build": "run-s create-dist-folder move-css babel minify",
     "start": "run-p create-dist-folder onchange build move-css"
   }
 }
