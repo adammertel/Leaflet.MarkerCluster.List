@@ -5,22 +5,45 @@
 
 L.MarkerCluster.include({
   _spiderfy: L.MarkerCluster.prototype.spiderfy,
+  
   spiderfy() {
     const childMarkers = this.getAllChildMarkers();
     const group = this._group;
+
     group.refreshList(childMarkers);
+
+		group.fire('spiderfied', {
+			cluster: this,
+			markers: childMarkers
+    });
+    
+    this._map.on('click', this.unspiderfy, this);
   },
+
+  unspiderfy() {
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+
+    group.fire('unspiderfied', {
+			cluster: this,
+			markers: childMarkers
+    });
+  }
+
 });
 
 L.Map = L.Map.include({
   _remove: L.Map.prototype.remove,
+  
   setListContainer(container) {
     this.listContainer = container;
   },
+
   remove() {
     this.listContainer.remove();
     this._remove();
   },
+  
 });
 
 
@@ -36,6 +59,19 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   onAdd(map) {
     this.list = L.markerClusterGroup.list(this.options);
     this.list.addTo(map);
+
+    
+    this.on('spiderfied', (e) => {
+      console.log('spiderfied');
+      // a.layer is actually a cluster
+      //console.log('cluster ' + a.layer.getAllChildMarkers().length);
+    });
+    
+    this.on('unspiderfied', (e) => {
+      console.log('unspiderfied');
+      // a.layer is actually a cluster
+      //console.log('cluster ' + a.layer.getAllChildMarkers().length);
+    });
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
@@ -82,8 +118,10 @@ L.MarkerCluster.List = L.Control.extend({
       rowClass += ' cluster-list-row';
       return `<tr class="${rowClass}"><td>${this.options.labelFn(element)}</td></tr>`;
     });
+    const thead = this.options.header ? 
+      `<thead><tr><th>${this.options.header}</th></tr></thead>` : ''
 
-    const html = `<table><tbody>${rows.join('')}</tbody></table>`;
+    const html = `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
     this.getContainer().innerHTML = html;
   },
 

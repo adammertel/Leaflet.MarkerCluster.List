@@ -5,7 +5,9 @@
     top: 20;
     z-index: 9999;
     background-color: lightgrey;
-    color: black
+    color: black;
+    overflow-y: auto;
+    max-height: 200px;
 }
 
 .markercluster-list > table {
