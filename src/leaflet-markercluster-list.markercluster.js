@@ -25,7 +25,6 @@ L.Map = L.Map.include({
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
-    list: true,
     labelFn: (e) => e.options.id
   },
 
@@ -63,9 +62,6 @@ L.MarkerCluster.List = L.Control.extend({
 
     map.setListContainer(container);
 
-    const row = L.DomUtil.create('p', 'marker-cluster-list-row', container);
-    row.innerHTML = 'ahoj';
-
     setTimeout(() => { this.moveContainer(map); }, 100);
 
     return container;
@@ -78,9 +74,11 @@ L.MarkerCluster.List = L.Control.extend({
   },
 
   refreshContent(elements) {
-    const rows = elements.map((element, ei) =>
-      `<tr><td>${this.options.labelFn(element)}</td></tr>`
-    );
+    const rows = elements.map((element, ei) => {
+      let rowClass = ei % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
+      rowClass += ' cluster-list-row';
+      return `<tr class="${rowClass}"><td>${this.options.labelFn(element)}</td></tr>`;
+    });
 
     const html = `<table><tbody>${rows.join('')}</tbody></table>`;
     this.getContainer().innerHTML = html;

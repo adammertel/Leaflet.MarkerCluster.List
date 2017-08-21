@@ -27,10 +27,10 @@
   }
   #panel {
     position: absolute;
-    height: 90%;
+    height: 40%;
     width: 150px;
     background-color: white;
-    top: 2%;
+    bottom: 2%;
     right: 2%;
     z-index: 999;
     padding-left: 15px;
@@ -142,17 +142,20 @@
       // setting map
       if (map) {map.remove();}
 
-      map = L.map('map-content', {maxZoom: 14}).setView(mapPosition, mapZoom);
+      map = L.map('map-content', {maxZoom: 14, zoomControl: false}).setView(mapPosition, mapZoom);
+      L.control.zoom({
+        position:'bottomleft'
+      }).addTo(map);
       map.on('zoomend', function () { mapZoom = map.getZoom(); });
       map.on('moveend', function () { mapPosition = map.getCenter(); });
 
       baseTiles.addTo(map);
 
       var options = {
-        list: true,
         labelFn: function (el) {
-          return '<p>' + el.options.listText + '</p>';
-        } 
+          return '<p>[' + el.options.id + '] ' + el.options.listText + '</p>';
+        },
+
       }
 
       var markers = L.markerClusterGroup.withList(options);

@@ -1,9 +1,22 @@
 .markercluster-list{
     position: absolute;
-    left: 55px;
-    right: 230px;
-    top: 10px;
+    left: 20;
+    right: 20;
+    top: 20;
     z-index: 9999;
+    background-color: lightgrey;
+    color: black
+}
+
+.markercluster-list > table {
+    width: 100%;
+    padding: 5
+}
+
+.markercluster-list > table > tbody > tr > td{
+    padding: 5
+}
+
+.markercluster-list > table > tbody > tr.cluster-list-row-even{
     background-color: grey;
-    color: whitesmoke
 }
