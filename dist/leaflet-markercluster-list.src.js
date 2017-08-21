@@ -4,6 +4,14 @@
 
 'use strict';
 
+L.MarkerCluster.include({
+  spiderfy() {
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+    group.refreshList(childMarkers);
+  }
+});
+
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
     list: true
