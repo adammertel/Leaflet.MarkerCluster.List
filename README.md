@@ -12,4 +12,4 @@
 
 
 ### Demo:
-[random data demo](https://adammertel.github.io/https://github.com/adammertel/Leaflet.MarkerCluster.List/demo/demo1.html)
+[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.List/demo/demo1.html)
