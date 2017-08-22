@@ -125,9 +125,16 @@ L.MarkerCluster.List = L.Control.extend({
 
     const thead = this.options.showHeader ? `<thead><tr><th>${this.options.headerFn(markers, cluster)}</th></tr></thead>` : '';
 
-    const html = `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
+    let html = '<div class="table-wrapper">';
+    html += `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
+    html += '</div>';
+    html += this.buildSidePanel();
 
     this.updateContent(html);
+  },
+
+  buildSidePanel() {
+    return '<div class="cluster-list-side-panel" ></div>';
   },
 
   updateContent(content) {

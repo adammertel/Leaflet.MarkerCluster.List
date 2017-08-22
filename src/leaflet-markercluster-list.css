@@ -1,3 +1,7 @@
+.markercluster-list, .markercluster-list > .table-wrapper{
+    max-height: 200px;
+}
+
 .markercluster-list{
     position: absolute;
     left: 20;
@@ -6,19 +10,30 @@
     z-index: 9999;
     background-color: lightgrey;
     color: black;
+}
+
+.markercluster-list > .table-wrapper {
+    margin-right: 30px;
+    padding: 0 5;
     overflow-y: auto;
-    max-height: 200px;
 }
-
-.markercluster-list > table {
+.markercluster-list > .table-wrapper > table{
     width: 100%;
+}
+
+.markercluster-list > .table-wrapper >table > tbody > tr > td{
     padding: 5
 }
 
-.markercluster-list > table > tbody > tr > td{
-    padding: 5
-}
-
-.markercluster-list > table > tbody > tr.cluster-list-row-even{
+.markercluster-list > .table-wrapper > table > tbody > tr.cluster-list-row-even{
     background-color: grey;
+}
+
+.cluster-list-side-panel{
+    height: 100%;
+    position: absolute;
+    width: 30px;
+    right: 0;
+    top: 0;
+    background-color: red;
 }
