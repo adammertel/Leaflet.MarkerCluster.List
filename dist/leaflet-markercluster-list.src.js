@@ -68,8 +68,6 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.on('unspiderfied', data => {
       console.log('unspiderfied');
       this.hideList();
-      // a.layer is actually a cluster
-      //console.log('cluster ' + a.layer.getAllChildMarkers().length);
     });
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
@@ -123,18 +121,25 @@ L.MarkerCluster.List = L.Control.extend({
       return `<tr class="${rowClass}"><td>${this.options.labelFn(marker, mi, cluster)}</td></tr>`;
     });
 
-    const thead = this.options.showHeader ? `<thead><tr><th>${this.options.headerFn(markers, cluster)}</th></tr></thead>` : '';
+    const head = this.options.showHeader ? `<div class="cluster-list-header">${this.options.headerFn(markers, cluster)}</div>` : '';
 
-    let html = '<div class="table-wrapper">';
-    html += `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
+    let html = head;
+    html += '<div class="table-wrapper">';
+    html += `<table><tbody>${rows.join('')}</tbody></table>`;
     html += '</div>';
     html += this.buildSidePanel();
 
     this.updateContent(html);
+
+    const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
+    sideButton.addEventListener('click', e => this.hide());
   },
 
   buildSidePanel() {
-    return '<div class="cluster-list-side-panel" ></div>';
+    let html = '<div class="cluster-list-side-panel" >';
+    html += '<button onmouseclick="this.hide()" class="cluster-list-side-panel-button" value="x" > </button>';
+    html += '</div>';
+    return html;
   },
 
   updateContent(content) {

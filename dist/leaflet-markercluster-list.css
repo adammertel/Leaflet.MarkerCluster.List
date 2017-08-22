@@ -1,5 +1,5 @@
 .markercluster-list, .markercluster-list > .table-wrapper{
-    max-height: 200px;
+    background-color: lightgrey;
 }
 
 .markercluster-list{
@@ -8,12 +8,16 @@
     right: 20;
     top: 20;
     z-index: 9999;
-    background-color: lightgrey;
-    color: black;
+    max-height: 200px;
+    display: flex;
+    flex-flow: column;
+}
+.cluster-list-header{
+    padding: 0px 10px;
 }
 
 .markercluster-list > .table-wrapper {
-    margin-right: 30px;
+    margin-right: 50px;
     padding: 0 5;
     overflow-y: auto;
 }
@@ -32,8 +36,23 @@
 .cluster-list-side-panel{
     height: 100%;
     position: absolute;
-    width: 30px;
+    width: 50px;
     right: 0;
     top: 0;
-    background-color: red;
+}
+
+.cluster-list-side-panel-button{
+    padding: 5px;
+    margin: 5px;
+    color: white;
+    font-weight: 800;
+    font-size: 15;
+    background: grey;
+    border: none;
+    width: calc(100% - 10px);
+    height: 30px;
+    cursor: pointer;
+}
+.cluster-list-side-panel-button:after{
+    content: 'x'
 }
