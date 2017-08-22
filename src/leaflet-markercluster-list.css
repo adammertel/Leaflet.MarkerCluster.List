@@ -17,7 +17,6 @@
 }
 
 .markercluster-list > .table-wrapper {
-    margin-right: 50px;
     padding: 0 5;
     overflow-y: auto;
 }
@@ -36,7 +35,6 @@
 .cluster-list-side-panel{
     height: 100%;
     position: absolute;
-    width: 50px;
     right: 0;
     top: 0;
 }

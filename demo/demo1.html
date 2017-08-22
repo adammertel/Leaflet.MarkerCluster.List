@@ -72,10 +72,20 @@
     <h4>LEAFLET.MARKERCLUSTER.LIST</h4>
     
     <p class="select-row">header:</p>
-    <textarea rows="8" cols="35" class="map-refresh-needed"
-    id="select-header"><b>Clustered elements</b></textarea>
+    <input type="checkbox" id="select-header" class="map-refresh-needed">
+
+    <p class="select-row">side panel:</p>
+    <input type="checkbox" id="select-side" class="map-refresh-needed">
     
-      <p><i> Data: random points </i></p>
+    <p class="select-row">side-panel width:</p>
+    <select id="select-side-width" class="map-refresh-needed">
+      <option value="40">40px</option>
+      <option value="50" checked>50px</option>
+      <option value="75">75px</option>
+      <option value="100">100px</option>
+    </select>
+
+    <p><i> Data: random points </i></p>
   </div>
   <script>
 
@@ -142,10 +152,11 @@
           return '<p>[' + ei + '] ' + el.options.listText + '</p>';
         },
         headerFn: function (els, cluster) {
-          console.log(cluster);
           return '<p>showing cluster with ' + els.length + ' elements</p>';
         },
-        showHeader: true,
+        showHeader: $('#select-header')[0].checked,
+        sidePanel: $('#select-side')[0].checked,
+        sidePanelWidth: $('#select-side-width').val(),
         showCoverageOnHover: false,
       }
 

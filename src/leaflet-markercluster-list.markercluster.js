@@ -50,7 +50,9 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
     labelFn: (...args) => '...',
     headerFn: (...args) => '',
-    showHeader: false
+    showHeader: false,
+    sidePanel: false,
+    sidePanelWidth: 50
   },
 
   initialize(options) {
@@ -127,24 +129,41 @@ L.MarkerCluster.List = L.Control.extend({
 
     const head = this.options.showHeader ? 
       `<div class="cluster-list-header">${this.options.headerFn(markers, cluster)}</div>` : '';
-    
+
     let html = head;
-    html += '<div class="table-wrapper">';
+    html += `<div class="table-wrapper" style="margin-right: ${this.sidePanelWidth()}">`;
     html += `<table><tbody>${rows.join('')}</tbody></table>`;
     html += '</div>'
-    html += this.buildSidePanel();
+    html += this.sidePanelBuild();
     
     this.updateContent(html);
+    this.sidePanelBideEvent();
 
-    const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
-    sideButton.addEventListener('click', e => this.hide());
+  },
+  
+  sidePanelBideEvent() {
+    if (this.isSidePanel()) {
+      const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
+      sideButton.addEventListener('click', e => this.hide());    
+    }
   },
 
-  buildSidePanel() {
-    let html = '<div class="cluster-list-side-panel" >';
-    html += '<button onmouseclick="this.hide()" class="cluster-list-side-panel-button" value="x" > </button>';
-    html += '</div>';
+  sidePanelBuild() {
+    let html = '';
+    if (this.isSidePanel()) {
+      html += `<div class="cluster-list-side-panel" style="width: ${this.sidePanelWidth()}">`;
+      html += '<button onmouseclick="this.hide()" class="cluster-list-side-panel-button" value="x" > </button>';
+      html += '</div>';
+    }
     return html;
+  },
+
+  isSidePanel() {
+    return this.options.sidePanel;
+  },
+
+  sidePanelWidth() {
+    return this.isSidePanel() ? this.options.sidePanelWidth : 0;
   },
   
   updateContent(content) {
