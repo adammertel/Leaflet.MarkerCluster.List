@@ -3,8 +3,11 @@
 
 
 ### Options
- * **labelFn** (fn) - function to handle how to display each element in the list
- * **header** (string, default '') - heading of the list 
+ * **labelFn** (fn (element, element index, cluster) ) - function to handle how to display each element in the list
+ * **headerFn** (fn (elements, cluster) ) - function to handle header
+ * **showHeader** (bool) - whether to display header
+ * **sidePanel** (bool) - whether to show side panel with close button
+ * **sidePanelWidth** (number) - width of side panel in px 
 
 
 ### Notes:
