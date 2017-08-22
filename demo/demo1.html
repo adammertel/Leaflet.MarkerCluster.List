@@ -138,10 +138,14 @@
       baseTiles.addTo(map);
 
       var options = {
-        labelFn: function (el) {
-          return '<p>[' + el.options.id + '] ' + el.options.listText + '</p>';
+        labelFn: function (el, ei, cluster) {
+          return '<p>[' + ei + '] ' + el.options.listText + '</p>';
         },
-        header: $('#select-header').val(),
+        headerFn: function (els, cluster) {
+          console.log(cluster);
+          return '<p>showing cluster with ' + els.length + ' elements</p>';
+        },
+        showHeader: true,
         showCoverageOnHover: false,
 
       }

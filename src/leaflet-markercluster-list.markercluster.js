@@ -18,6 +18,7 @@ L.MarkerCluster.include({
     this._map.on('click', this.unspiderfy, this);
   },
 
+
   unspiderfy() {
     const childMarkers = this.getAllChildMarkers();
     const group = this._group;
@@ -47,7 +48,9 @@ L.Map = L.Map.include({
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
-    labelFn: (e) => e.options.id
+    labelFn: (...args) => '...',
+    headerFn: (...args) => '',
+    showHeader: false
   },
 
   initialize(options) {
@@ -61,7 +64,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     
     this.on('spiderfied', data => {
       console.log('spiderfied');
-      this.refreshList(data.markers);
+      this.refreshList(data);
     });
     
     this.on('unspiderfied', data => {
@@ -74,8 +77,8 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
 
-  refreshList(children) {
-    this.list.show(children);
+  refreshList(data) {
+    this.list.show(data);
   },
 
   hideList() {
@@ -114,15 +117,18 @@ L.MarkerCluster.List = L.Control.extend({
     L.DomUtil.toFront(controlDom);
   },
 
-  show(elements) {
-    const rows = elements.map((element, ei) => {
-      let rowClass = ei % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
+  show(data) {    
+    const markers = data.markers;
+    const cluster = data.cluster;
+
+    const rows = markers.map((marker, mi) => {
+      let rowClass = mi % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
       rowClass += ' cluster-list-row';
-      return `<tr class="${rowClass}"><td>${this.options.labelFn(element)}</td></tr>`;
+      return `<tr class="${rowClass}"><td>${this.options.labelFn(marker, mi, cluster)}</td></tr>`;
     });
 
-    const thead = this.options.header ? 
-      `<thead><tr><th>${this.options.header}</th></tr></thead>` : ''
+    const thead = this.options.showHeader ? 
+      `<thead><tr><th>${this.options.headerFn(markers, cluster)}</th></tr></thead>` : '';
 
     const html = `<table><tbody>${thead}${rows.join('')}</tbody></table>`;
     
