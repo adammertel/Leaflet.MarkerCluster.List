@@ -39,6 +39,18 @@
     top: 0;
 }
 
+.marker-cluster.marker-cluster-selected{
+    font-weight: 800;
+    color: white
+}
+.marker-cluster.marker-cluster-selected div{
+    font-size: 120%;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 0px;
+    border: 5px solid white;
+}
+
 .cluster-list-side-panel-button{
     padding: 5px;
     margin: 5px;

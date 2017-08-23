@@ -14,20 +14,27 @@ L.MarkerCluster.include({
 			cluster: this,
 			markers: childMarkers
     });
-    
+
     this._map.on('click', this.unspiderfy, this);
+    group.unassignSelectedClass();
+    this.assignSelectedClass();  
   },
-
-
+  
   unspiderfy() {
     const childMarkers = this.getAllChildMarkers();
     const group = this._group;
-
+    
     group.fire('unspiderfied', {
-			cluster: this,
+      cluster: this,
 			markers: childMarkers
     });
-  }
+
+    group.unassignSelectedClass();
+  },
+  
+  assignSelectedClass() {
+    this._icon.classList.add('marker-cluster-selected');
+  },
 
 });
 
@@ -65,12 +72,10 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
 
     
     this.on('spiderfied', data => {
-      console.log('spiderfied');
       this.refreshList(data);
     });
     
     this.on('unspiderfied', data => {
-      console.log('unspiderfied');
       this.hideList();
     });
 
@@ -84,6 +89,12 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   hideList() {
     this.list.hide();
   },
+
+  unassignSelectedClass() {
+    document.querySelectorAll('div.marker-cluster-selected').forEach( mc => {
+      mc.classList.remove('marker-cluster-selected')
+    });
+  }
 });
 
 L.markerClusterGroup.withList = function (options) {
