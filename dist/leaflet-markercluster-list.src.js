@@ -1,104 +1,7 @@
-
-/* global L:true */
+/* global L:true, document: true */
 /* eslint no-underscore-dangle: 0 */
 
 'use strict';
-
-L.MarkerCluster.include({
-  _spiderfy: L.MarkerCluster.prototype.spiderfy,
-
-  spiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
-
-    group.fire('spiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
-
-    this._map.on('click', this.unspiderfy, this);
-    group.unassignSelectedClass();
-    this.assignSelectedClass();
-  },
-
-  unspiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
-
-    group.fire('unspiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
-
-    group.unassignSelectedClass();
-  },
-
-  assignSelectedClass() {
-    this._icon.classList.add('marker-cluster-selected');
-  }
-
-});
-
-L.Map = L.Map.include({
-  _remove: L.Map.prototype.remove,
-
-  setListContainer(container) {
-    this.listContainer = container;
-  },
-
-  remove() {
-    this.listContainer.remove();
-    this._remove();
-  }
-
-});
-
-L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
-  options: {
-    labelFn: (...args) => '...',
-    headerFn: (...args) => '',
-    showHeader: false,
-    sidePanel: false,
-    sidePanelWidth: 50
-  },
-
-  initialize(options) {
-    L.MarkerClusterGroup.prototype.initialize.call(this, options);
-  },
-
-  onAdd(map) {
-    this.list = L.markerClusterGroup.list(this.options);
-    this.list.addTo(map);
-
-    this.on('spiderfied', data => {
-      this.refreshList(data);
-    });
-
-    this.on('unspiderfied', data => {
-      this.hideList();
-    });
-
-    L.MarkerClusterGroup.prototype.onAdd.call(this, map);
-  },
-
-  refreshList(data) {
-    this.list.show(data);
-  },
-
-  hideList() {
-    this.list.hide();
-  },
-
-  unassignSelectedClass() {
-    document.querySelectorAll('div.marker-cluster-selected').forEach(mc => {
-      mc.classList.remove('marker-cluster-selected');
-    });
-  }
-});
-
-L.markerClusterGroup.withList = function (options) {
-  return new L.MarkerClusterGroup.WithList(options);
-};
 
 L.MarkerCluster.List = L.Control.extend({
   options: {
@@ -185,6 +88,10 @@ L.MarkerCluster.List = L.Control.extend({
 L.markerClusterGroup.list = function (options) {
   return new L.MarkerCluster.List(options);
 };
+/* global L:true, document: true */
+/* eslint no-underscore-dangle: 0 */
+
+'use strict';
 
 L.MarkerCluster.ListMarker = L.CircleMarker.extend({
   options: {
@@ -207,4 +114,107 @@ L.MarkerCluster.ListMarker = L.CircleMarker.extend({
 
 L.markerClusterGroup.listMarker = function (latlng, options) {
   return new L.MarkerCluster.ListMarker(latlng, options);
+};
+/* global L:true, document: true */
+/* eslint no-underscore-dangle: 0 */
+
+'use strict';
+
+L.MarkerCluster.include({
+  _spiderfy: L.MarkerCluster.prototype.spiderfy,
+
+  spiderfy() {
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+
+    group.fire('spiderfied', {
+      cluster: this,
+      markers: childMarkers
+    });
+
+    this._map.on('click', this.unspiderfy, this);
+    group.unassignSelectedClass();
+    this.assignSelectedClass();
+  },
+
+  unspiderfy() {
+    const childMarkers = this.getAllChildMarkers();
+    const group = this._group;
+
+    group.fire('unspiderfied', {
+      cluster: this,
+      markers: childMarkers
+    });
+
+    group.unassignSelectedClass();
+  },
+
+  assignSelectedClass() {
+    this._icon.classList.add('marker-cluster-selected');
+  }
+
+});
+
+L.Map = L.Map.include({
+  _remove: L.Map.prototype.remove,
+
+  setListContainer(container) {
+    this.listContainer = container;
+  },
+
+  remove() {
+    this.listContainer.remove();
+    this._remove();
+  }
+});
+/* global L:true, document: true */
+/* eslint no-underscore-dangle: 0 */
+
+'use strict';
+
+L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
+  options: {
+    labelFn: (...args) => '...',
+    headerFn: (...args) => '',
+    showHeader: false,
+    sidePanel: false,
+    sidePanelWidth: 50
+  },
+
+  initialize(options) {
+    L.MarkerClusterGroup.prototype.initialize.call(this, options);
+  },
+
+  onAdd(map) {
+    this.list = L.markerClusterGroup.list(this.options);
+    this.list.addTo(map);
+
+    this.on('spiderfied', data => {
+      this.refreshList(data);
+    });
+
+    this.on('unspiderfied', data => {
+      this.hideList();
+    });
+
+    L.MarkerClusterGroup.prototype.onAdd.call(this, map);
+  },
+
+  refreshList(data) {
+    this.list.show(data);
+  },
+
+  hideList() {
+    this.list.hide();
+  },
+
+  unassignSelectedClass() {
+    document.querySelectorAll('div.marker-cluster-selected').forEach(mc => {
+      mc.classList.remove('marker-cluster-selected');
+    });
+  }
+});
+
+L.markerClusterGroup.withList = function (options) {
+  return new L.MarkerClusterGroup.WithList(options);
 };
