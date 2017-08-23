@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "create-dist-folder": "mkdirp dist",
-    "eslint": "eslint src",
+    "eslint": "eslint --fix src",
     "babel": "babel src --out-file dist/leaflet-markercluster-list.src.js",
     "minify": "babel --plugins transform-remove-console dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified",
     "move-css": "copyfiles -f src/leaflet-markercluster-list.css dist",
