@@ -1,0 +1,171 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
+    
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/leaflet.markercluster.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <script src="./leaflet-markercluster.placementstrategies.js"></script>
+    <script src="./../dist/leaflet-markercluster-list.src.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css" />
+    <link href="./../dist/leaflet-markercluster-list.css" rel="stylesheet">
+  
+  </head>
+
+  <style>
+    body {
+      margin: 0px;
+      font-family: 'PT Sans Narrow', sans-serif;
+    }
+    #map-content {
+      width: 100%;
+      height: 100%;
+      margin: 0
+    }
+    #panel {
+      position: absolute;
+      height: 40%;
+      width: 250px;
+      background-color: white;
+      bottom: 2%;
+      right: 2%;
+      z-index: 999;
+      padding-left: 15px;
+      opacity: 0.9;
+      border: 15px solid white;
+      border-opacity: 0;
+      font-size: 100%;
+    }
+  
+    .marker-cluster {
+      opacity: 1 !important
+    }
+  
+    .active-cluster-element {
+      opacity: 0.2;
+    }
+  
+    .select-row {
+      margin-top: 4px;
+      margin-bottom: 1px;
+      margin-left: 5px
+    }
+  
+    h4 {
+      margin-bottom: 2px
+    }
+  
+    select {
+      margin-left: 5px
+    }
+  </style>
+
+  <body>
+    <div id="map-content"></div>
+    <script>
+      
+    // global variables
+    var map;
+
+    // creates extent for random data
+    var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
+    var mapZoom = 14;
+    var mapPosition = [(maxX + minX)/2, (maxY + minY)/2];
+
+    // creating random data
+    var noTestData = 7000;
+    var data = [];
+    for (var i=0; i < noTestData; i++) {
+      data.push ({
+        id: i,
+        x: minX + Math.random() * (maxX - minX),
+        y: minY + Math.random() * (maxY - minY),
+        type: Math.floor(Math.random() * 6)
+      });
+    }
+
+    // colorbrewer 2
+    var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
+
+    var circleStyle = function(point) {
+      return {
+        fillColor: colors[point.type],
+        id: point.id,
+        listText: 'random point ' + point.id
+      };
+    };
+
+    $( document ).ready(function(){
+      refreshMap();
+      $('.map-refresh-needed').change(function () {
+        refreshMap()
+      })
+    });
+
+
+    function refreshMap () {
+      var baseTiles = 
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+          opacity: parseFloat($('#mapopacity-select').val())
+        })
+
+      // setting map
+      if (map) {map.remove();}
+
+      map = L.map('map-content', 
+        {maxZoom: 14, zoomControl: false}
+      ).setView(mapPosition, mapZoom);
+      
+      L.control.zoom({
+        position:'bottomleft'
+      }).addTo(map);
+
+      map.on('zoomend', function () { mapZoom = map.getZoom(); });
+      map.on('moveend', function () { mapPosition = map.getCenter(); });
+
+      baseTiles.addTo(map);
+
+      var options = {
+        labelFn: function (el, ei, cluster) {
+          return '<p>[' + ei + '] ' + el.options.listText + '</p>';
+        },
+        headerFn: function (els, cluster) {
+          return '<p>showing cluster with ' + els.length + ' elements</p>';
+        },
+        showHeader: true,
+        sidePanel: true,
+        list: false,
+        sidePanelWidth: 40,
+        showCoverageOnHover: false,
+
+        elementsPlacementStrategy: 'clock',
+      }
+
+      var markers = L.markerClusterGroup.withList(options);
+
+      // parse data
+      for (var di in data) {
+        var point = data[di];
+        var style = circleStyle(point);
+        var marker = L.markerClusterGroup.listMarker(
+          [point.x, point.y], 
+          style
+        );
+
+        markers.addLayer(marker);
+      }
+
+      map.addLayer(markers);
+    }
+
+  </script>
+  </body>
+
+</html>

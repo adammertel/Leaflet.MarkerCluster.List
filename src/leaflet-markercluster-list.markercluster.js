@@ -5,31 +5,39 @@
 
 L.MarkerCluster.include({
   _spiderfy: L.MarkerCluster.prototype.spiderfy,
+  _unspiderfy: L.MarkerCluster.prototype.unspiderfy,
 
   spiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
-
-    group.fire('spiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
-
-    this._map.on('click', this.unspiderfy, this);
-    group.unassignSelectedClass();
-    this.assignSelectedClass();
+    if (this.options.list) {
+      const childMarkers = this.getAllChildMarkers();
+      const group = this._group;
+      group.fire('spiderfied', {
+        cluster: this,
+        markers: childMarkers
+      });
+      
+      this._map.on('click', this.unspiderfy, this);
+      group.unassignSelectedClass();
+      this.assignSelectedClass();
+    } else {
+      this._spiderfy();
+    }
   },
-
+  
   unspiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
-
-    group.fire('unspiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
-
-    group.unassignSelectedClass();
+    if (this.options.list) {
+      const childMarkers = this.getAllChildMarkers();
+      const group = this._group;
+      
+      group.fire('unspiderfied', {
+        cluster: this,
+        markers: childMarkers
+      });
+      
+      group.unassignSelectedClass();
+    } else {
+      this._unspiderfy();
+    }
   },
 
   assignSelectedClass() {

@@ -8,6 +8,7 @@
  * **showHeader** (bool) - whether to display header
  * **sidePanel** (bool) - whether to show side panel with close button
  * **sidePanelWidth** (number) - width of side panel in px 
+ * **list** (bool) - whether to apply this list rule or not 
 
 
 ### Notes:
@@ -15,4 +16,5 @@
 
 
 ### Demo:
-[random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.List/demo/demo1.html)
+ * [random data demo](https://adammertel.github.io/Leaflet.MarkerCluster.List/demo/demo1.html)
+ * [combined with markercluster.placementStrategies](https://adammertel.github.io/Leaflet.MarkerCluster.List/demo/demo2.html)

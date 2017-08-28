@@ -122,31 +122,39 @@ L.markerClusterGroup.listMarker = function (latlng, options) {
 
 L.MarkerCluster.include({
   _spiderfy: L.MarkerCluster.prototype.spiderfy,
+  _unspiderfy: L.MarkerCluster.prototype.unspiderfy,
 
   spiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
+    if (this.options.list) {
+      const childMarkers = this.getAllChildMarkers();
+      const group = this._group;
+      group.fire('spiderfied', {
+        cluster: this,
+        markers: childMarkers
+      });
 
-    group.fire('spiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
-
-    this._map.on('click', this.unspiderfy, this);
-    group.unassignSelectedClass();
-    this.assignSelectedClass();
+      this._map.on('click', this.unspiderfy, this);
+      group.unassignSelectedClass();
+      this.assignSelectedClass();
+    } else {
+      this._spiderfy();
+    }
   },
 
   unspiderfy() {
-    const childMarkers = this.getAllChildMarkers();
-    const group = this._group;
+    if (this.options.list) {
+      const childMarkers = this.getAllChildMarkers();
+      const group = this._group;
 
-    group.fire('unspiderfied', {
-      cluster: this,
-      markers: childMarkers
-    });
+      group.fire('unspiderfied', {
+        cluster: this,
+        markers: childMarkers
+      });
 
-    group.unassignSelectedClass();
+      group.unassignSelectedClass();
+    } else {
+      this._unspiderfy();
+    }
   },
 
   assignSelectedClass() {
@@ -178,7 +186,8 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     headerFn: (...args) => '',
     showHeader: false,
     sidePanel: false,
-    sidePanelWidth: 50
+    sidePanelWidth: 50,
+    list: true
   },
 
   initialize(options) {
@@ -201,11 +210,11 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   refreshList(data) {
-    this.list.show(data);
+    this.options.list ? this.list.show(data) : null;
   },
 
   hideList() {
-    this.list.hide();
+    this.options.list ? this.list.hide() : null;
   },
 
   unassignSelectedClass() {

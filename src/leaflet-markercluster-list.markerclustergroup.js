@@ -9,7 +9,8 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     headerFn: (...args) => '',
     showHeader: false,
     sidePanel: false,
-    sidePanelWidth: 50
+    sidePanelWidth: 50,
+    list: true
   },
 
   initialize(options) {
@@ -33,11 +34,11 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   refreshList(data) {
-    this.list.show(data);
+    this.options.list ? this.list.show(data) : null;
   },
-
+  
   hideList() {
-    this.list.hide();
+    this.options.list ? this.list.hide() : null;
   },
 
   unassignSelectedClass() {

@@ -1,0 +1,68 @@
+.markercluster-list, .markercluster-list > .table-wrapper{
+    background-color: lightgrey;
+}
+
+.markercluster-list{
+    position: absolute;
+    left: 20;
+    right: 20;
+    top: 20;
+    z-index: 9999;
+    max-height: 200px;
+    display: flex;
+    flex-flow: column;
+}
+.cluster-list-header{
+    padding: 0px 10px;
+}
+
+.markercluster-list > .table-wrapper {
+    padding: 0 5;
+    overflow-y: auto;
+}
+.markercluster-list > .table-wrapper > table{
+    width: 100%;
+}
+
+.markercluster-list > .table-wrapper >table > tbody > tr > td{
+    padding: 5
+}
+
+.markercluster-list > .table-wrapper > table > tbody > tr.cluster-list-row-even{
+    background-color: grey;
+}
+
+.cluster-list-side-panel{
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.marker-cluster.marker-cluster-selected{
+    font-weight: 800;
+    color: white
+}
+.marker-cluster.marker-cluster-selected div{
+    font-size: 120%;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 0px;
+    border: 5px solid white;
+}
+
+.cluster-list-side-panel-button{
+    padding: 5px;
+    margin: 5px;
+    color: white;
+    font-weight: 800;
+    font-size: 15;
+    background: grey;
+    border: none;
+    width: calc(100% - 10px);
+    height: 30px;
+    cursor: pointer;
+}
+.cluster-list-side-panel-button:after{
+    content: 'x'
+}
