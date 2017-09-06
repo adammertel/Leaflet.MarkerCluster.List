@@ -121,9 +121,10 @@
         type: Math.floor(Math.random() * 6)
       });
     }
-
+    
     // colorbrewer 2
     var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
+    var markers;
 
     var circleStyle = function(point) {
       return {
@@ -146,69 +147,59 @@
       })
     });
 
-
-    function refreshMap () {
-      $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
-      // setting map
-      if (map) map.remove();
-
-      map = L.map('map-content', 
-        {maxZoom: 14, zoomControl: false}
-      ).setView(mapPosition, mapZoom);
+    // setting map
+    if (map) {map.remove()};
     
-      L.control.zoom({position:'bottomleft'}).addTo(map);
-      
-      map.on('zoomend', function () { 
-        try {
-          mapZoom = map.getZoom(); 
-        } catch(e) {
-          console.log('!');
-          console.log(e);
-        }
-      });
-      map.on('moveend', function () { 
-        try {
-          mapPosition = map.getCenter(); 
-        } catch(e) {
-          console.log('!');
-          console.log(e);
-        }
-      });
-      
-      baseTiles.addTo(map);
+    map = L.map('map-content', 
+    {maxZoom: 14, zoomControl: false}
+  ).setView(mapPosition, mapZoom);
+  
+  L.control.zoom({position:'bottomleft'}).addTo(map);
+  
+  map.on('zoomend', function () { mapZoom = map.getZoom() });
+  map.on('moveend', function () { mapPosition = map.getCenter() });
+  
+  baseTiles.addTo(map);
+  
+  
+  function refreshMap () {
+    console.log('list', list);
+    $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
 
-      var options = {
-        labelFn: function (el, ei, cluster) {
-          return '<p>[' + ei + '] ' + el.options.listText + '</p>';
-        },
-        headerFn: function (els, cluster) {
-          return '<p>showing cluster with ' + els.length + ' elements</p>';
-        },
-        showHeader: true,
-        sidePanel: true,
-        list: list,
-        sidePanelWidth: 40,
-        showCoverageOnHover: false,
+    if (markers && markers.clearLayers) { markers.clearLayers() }
 
-        elementsPlacementStrategy: 'clock',
-      }
+    var options = {
+      labelFn: function (el, ei, cluster) {
+        return '<p>[' + ei + '] ' + el.options.listText + '</p>';
+      },
+      headerFn: function (els, cluster) {
+        return '<p>showing cluster with ' + els.length + ' elements</p>';
+      },
+      showHeader: true,
+      sidePanel: true,
+      list: list,
+      sidePanelWidth: 40,
+      showCoverageOnHover: false,
 
-      var markers = L.markerClusterGroup.withList(options);
-
-      // parse data
-      for (var di in data) {
-        var point = data[di];
-        var style = circleStyle(point);
-        var marker = L.markerClusterGroup.listMarker(
-          [point.x, point.y], 
-          style
-        );
-
-        markers.addLayer(marker);
-      }
-
-      map.addLayer(markers); 
+      elementsPlacementStrategy: 'clock',
     }
+
+    markers = L.markerClusterGroup.withList(options);
+
+    // parse data
+    for (var di in data) {
+      var point = data[di];
+      var style = circleStyle(point);
+      var marker = L.markerClusterGroup.listMarker(
+        [point.x, point.y], 
+        style
+      );
+
+      markers.addLayer(marker);
+    }
+
+    map.addLayer(markers); 
+  }
 
   </script>
   </body>
