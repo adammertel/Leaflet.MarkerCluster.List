@@ -38,7 +38,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
   
   hideList() {
-    this.options.list ? this.list.hide() : null;
+    this.list ? this.list.hide() : null;
   },
   
   clearLayers() {
