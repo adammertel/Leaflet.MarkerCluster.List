@@ -75,10 +75,10 @@
   
       <p class="select-row">maximal width to use List in px:</p>
       <select id="select-windows-width" class="map-refresh-needed">
-        <option value="500">500px</option>
-        <option value="600">600px</option>
         <option value="700">700px</option>
-        <option value="800" checked>800px</option>
+        <option value="800">800px</option>
+        <option value="900">900px</option>
+        <option value="1000" checked>1000px</option>
       </select>
       
       <p>Actual mode: <b id="actual-mode"> </b></p>
@@ -151,23 +151,16 @@
     if (map) {map.remove()};
     
     map = L.map('map-content', 
-    {maxZoom: 14, zoomControl: false}
-  ).setView(mapPosition, mapZoom);
-  
-  L.control.zoom({position:'bottomleft'}).addTo(map);
-  
-  map.on('zoomend', function () { mapZoom = map.getZoom() });
-  map.on('moveend', function () { mapPosition = map.getCenter() });
-  
-  baseTiles.addTo(map);
-  
-  
-  function refreshMap () {
-    console.log('list', list);
-    $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
-
-    if (markers && markers.clearLayers) { markers.clearLayers() }
-
+      {maxZoom: 14, zoomControl: false}
+    ).setView(mapPosition, mapZoom);
+    
+    L.control.zoom({position:'bottomleft'}).addTo(map);
+    map.on('zoomend', function () { mapZoom = map.getZoom() });
+    map.on('moveend', function () { mapPosition = map.getCenter() });
+    baseTiles.addTo(map);
+    
+    
+    
     var options = {
       labelFn: function (el, ei, cluster) {
         return '<p>[' + ei + '] ' + el.options.listText + '</p>';
@@ -180,12 +173,12 @@
       list: list,
       sidePanelWidth: 40,
       showCoverageOnHover: false,
-
+      
       elementsPlacementStrategy: 'clock',
     }
-
+    
+    if (markers && markers.clearLayers) { markers.clearLayers() }
     markers = L.markerClusterGroup.withList(options);
-
     // parse data
     for (var di in data) {
       var point = data[di];
@@ -194,14 +187,24 @@
         [point.x, point.y], 
         style
       );
-
+      
       markers.addLayer(marker);
     }
-
+    
     map.addLayer(markers); 
-  }
+    
+    function refreshMap () {
+      markers.unspiderfy();
+      L.setOptions(markers, {list: list})
+      
+      markers.refreshClusters();
+      markers.list.hide(); 
 
+      $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
+    }
+  
+  
   </script>
   </body>
-
-</html>
+  
+  </html>
