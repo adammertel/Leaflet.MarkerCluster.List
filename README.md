@@ -1,7 +1,7 @@
 # Leaflet.MarkerCluster.List
 **subplugin for the [Leaflet.MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) to display clustered child elements in the list**
 
-![image](https://raw.githubusercontent.com/adammertel/Leaflet.MarkerCluster.List/master/assets/img1.png)
+![image](github.com/adammertel/Leaflet.MarkerCluster.List/blob/master/assets/img.png?raw=true)
 
 ### Options
  * **labelFn** (fn (element, element index, cluster) ) - function to handle how to display each element in the list
