@@ -218,6 +218,11 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.options.list ? this.list.hide() : null;
   },
 
+  clearLayers() {
+    this.hideList();
+    L.MarkerClusterGroup.prototype.clearLayers.call(this);
+  },
+
   unassignSelectedClass() {
     document.querySelectorAll('div.marker-cluster-selected').forEach(mc => {
       mc.classList.remove('marker-cluster-selected');

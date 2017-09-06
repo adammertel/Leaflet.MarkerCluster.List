@@ -32,13 +32,18 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
-
+  
   refreshList(data) {
     this.options.list ? this.list.show(data) : null;
   },
   
   hideList() {
     this.options.list ? this.list.hide() : null;
+  },
+  
+  clearLayers() {
+    this.hideList();    
+    L.MarkerClusterGroup.prototype.clearLayers.call(this);
   },
 
   unassignSelectedClass() {
