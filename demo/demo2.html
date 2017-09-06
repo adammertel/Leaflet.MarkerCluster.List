@@ -4,7 +4,7 @@
     
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
     
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet-src.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/leaflet.markercluster.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     
@@ -68,10 +68,42 @@
 
   <body>
     <div id="map-content"></div>
+  
+    <div id="panel">
+      <h4>LEAFLET.MARKERCLUSTER.LIST demo2</h4>
+      <p>toggling between <b>List</b> and <b>PlacementStrategy</b> plugins based on the window size</p>
+  
+      <p class="select-row">maximal width to use List in px:</p>
+      <select id="select-windows-width" class="map-refresh-needed">
+        <option value="500">500px</option>
+        <option value="600">600px</option>
+        <option value="700">700px</option>
+        <option value="800" checked>800px</option>
+      </select>
+      
+      <p>Actual mode: <b id="actual-mode"> </b></p>
+      <p><i> Data: random points </i></p>
+
+    </div>
     <script>
+
+      
+    var checkMode = function () {
+      var newMode = $( window ).width() < $('#select-windows-width').val() ?
+      true : false;
+      if (newMode !== list) {
+        list = newMode;
+        refreshMap()
+      };
+    }
+
+    $( window ).resize(function() {setTimeout(function() {checkMode()}, 500)});
+    setTimeout(function() {checkMode()}, 1500);
       
     // global variables
     var map;
+    var list = true;
+
 
     // creates extent for random data
     var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
@@ -101,35 +133,48 @@
       };
     };
 
+    var baseTiles = 
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        opacity: parseFloat($('#mapopacity-select').val())
+    })
+
     $( document ).ready(function(){
       refreshMap();
       $('.map-refresh-needed').change(function () {
-        refreshMap()
+        refreshMap();
       })
     });
 
 
     function refreshMap () {
-      var baseTiles = 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-          opacity: parseFloat($('#mapopacity-select').val())
-        })
-
+      $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
       // setting map
-      if (map) {map.remove();}
+      if (map) map.remove();
 
       map = L.map('map-content', 
         {maxZoom: 14, zoomControl: false}
       ).setView(mapPosition, mapZoom);
+    
+      L.control.zoom({position:'bottomleft'}).addTo(map);
       
-      L.control.zoom({
-        position:'bottomleft'
-      }).addTo(map);
-
-      map.on('zoomend', function () { mapZoom = map.getZoom(); });
-      map.on('moveend', function () { mapPosition = map.getCenter(); });
-
+      map.on('zoomend', function () { 
+        try {
+          mapZoom = map.getZoom(); 
+        } catch(e) {
+          console.log('!');
+          console.log(e);
+        }
+      });
+      map.on('moveend', function () { 
+        try {
+          mapPosition = map.getCenter(); 
+        } catch(e) {
+          console.log('!');
+          console.log(e);
+        }
+      });
+      
       baseTiles.addTo(map);
 
       var options = {
@@ -141,7 +186,7 @@
         },
         showHeader: true,
         sidePanel: true,
-        list: false,
+        list: list,
         sidePanelWidth: 40,
         showCoverageOnHover: false,
 
@@ -162,7 +207,7 @@
         markers.addLayer(marker);
       }
 
-      map.addLayer(markers);
+      map.addLayer(markers); 
     }
 
   </script>
