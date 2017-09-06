@@ -125,9 +125,10 @@ L.MarkerCluster.include({
   _unspiderfy: L.MarkerCluster.prototype.unspiderfy,
 
   spiderfy() {
-    if (this.options.list) {
+    const group = this._group;
+
+    if (group.options.list) {
       const childMarkers = this.getAllChildMarkers();
-      const group = this._group;
       group.fire('spiderfied', {
         cluster: this,
         markers: childMarkers
@@ -142,16 +143,16 @@ L.MarkerCluster.include({
   },
 
   unspiderfy() {
-    if (this.options.list) {
+    const group = this._group;
+    group.unassignSelectedClass();
+
+    if (group.options.list) {
       const childMarkers = this.getAllChildMarkers();
-      const group = this._group;
 
       group.fire('unspiderfied', {
         cluster: this,
         markers: childMarkers
       });
-
-      group.unassignSelectedClass();
     } else {
       this._unspiderfy();
     }

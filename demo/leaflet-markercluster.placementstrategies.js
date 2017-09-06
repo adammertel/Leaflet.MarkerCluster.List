@@ -66,8 +66,6 @@ L.MarkerCluster.include({
         console.log('!!unknown placement strategy value. Allowed strategy names are : "default", "spiral", "one-circle", "concentric", "clock" and "clock-concentric" ');
     }
 
-    console.log(positions);
-
     this._animationSpiderfy(childMarkers, positions);
   },
 
@@ -180,7 +178,6 @@ L.MarkerCluster.include({
       if (!this._group.options.clockHelpingCircleOptions.fill) {
         this._group.options.clockHelpingCircleOptions.fillColor = 'none';
       }
-      console.log(this._group.options.clockHelpingCircleOptions);
       L.extend(clockCircleStyle, this._group.options.clockHelpingCircleOptions);
 
       var clockCircle = new L.CircleMarker(this._group._map.layerPointToLatLng(center), clockCircleStyle);
@@ -328,7 +325,7 @@ L.MarkerClusterGroup.include({
 
     spiderfyDistanceMultiplier: 1,
 
-    spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
+    spiderLegPolylineOptions: { weight: 0, color: '#222', opacity: 0.5 },
 
     chunkedLoading: false,
     chunkInterval: 200,
@@ -336,5 +333,4 @@ L.MarkerClusterGroup.include({
     chunkProgress: null,
     polygonOptions: {}
   }
-
 });
