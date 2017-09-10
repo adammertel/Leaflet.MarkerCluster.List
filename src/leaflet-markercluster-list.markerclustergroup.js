@@ -7,6 +7,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
     labelFn: (...args) => '...',
     headerFn: (...args) => '',
+    sortFn: (...args) => 1,
     showHeader: false,
     sidePanel: false,
     sidePanelWidth: 50,

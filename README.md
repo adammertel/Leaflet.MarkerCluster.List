@@ -6,6 +6,7 @@
 ### Options
  * **labelFn** (fn (element, element index, cluster) ) - function to handle how to display each element in the list
  * **headerFn** (fn (elements, cluster) ) - function to handle header
+ * **headerFn** (fn (marker1, marker2) ) - implementation of markers sorting in list (see e.g. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) 
  * **showHeader** (bool) - whether to display header
  * **sidePanel** (bool) - whether to show side panel with close button
  * **sidePanelWidth** (number) - width of side panel in px 

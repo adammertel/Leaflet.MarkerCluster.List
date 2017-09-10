@@ -168,6 +168,9 @@
       headerFn: function (els, cluster) {
         return '<p>showing cluster with ' + els.length + ' elements</p>';
       },
+      sortFn: function (m1, m2) {
+        return m1.options.id > m2.options.id ? 1 : -1
+      },
       showHeader: true,
       sidePanel: true,
       list: list,

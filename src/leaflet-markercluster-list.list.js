@@ -33,7 +33,9 @@ L.MarkerCluster.List = L.Control.extend({
     const markers = data.markers;
     const cluster = data.cluster;
 
-    const rows = markers.map((marker, mi) => {
+    const orderedMarkers = markers.sort( this.options.sortFn )
+
+    const rows = orderedMarkers.map((marker, mi) => {
       let rowClass = mi % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
       rowClass += ' cluster-list-row';
       return `<tr class="${rowClass}"><td>${this.options.labelFn(marker, mi, cluster)}</td></tr>`;
