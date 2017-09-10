@@ -45,7 +45,7 @@ L.MarkerCluster.List = L.Control.extend({
       `<div class="cluster-list-header">${this.options.headerFn(markers, cluster)}</div>` : '';
 
     let html = head;
-    html += `<div class="table-wrapper" style="margin-right: ${this.sidePanelWidth()}">`;
+    html += `<div class="table-wrapper" style="margin-right: ${this.sidePanelWidth()}px">`;
     html += `<table><tbody>${rows.join('')}</tbody></table>`;
     html += '</div>';
     html += this.sidePanelBuild();
@@ -64,7 +64,7 @@ L.MarkerCluster.List = L.Control.extend({
   sidePanelBuild() {
     let html = '';
     if (this.isSidePanel()) {
-      html += `<div class="cluster-list-side-panel" style="width: ${this.sidePanelWidth()}">`;
+      html += `<div class="cluster-list-side-panel" style="width: ${this.sidePanelWidth()}px">`;
       html += '<button onmouseclick="this.hide()" class="cluster-list-side-panel-button" value="x" > </button>';
       html += '</div>';
     }
