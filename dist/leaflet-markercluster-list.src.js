@@ -8,95 +8,92 @@ L.MarkerCluster.List = L.Control.extend({
     position: 'topright'
   },
 
-  initialize(group, options) {
+  initialize: function initialize(group, options) {
     this.group = group;
     L.Control.prototype.initialize.call(this, options);
   },
+  onAdd: function onAdd(map) {
+    var _this = this;
 
-  onAdd(map) {
-    const container = L.DomUtil.create('div', 'markercluster-list leaflet-bar');
+    var container = L.DomUtil.create('div', 'markercluster-list leaflet-bar');
 
     map.setListContainer(container);
 
-    setTimeout(() => {
-      this.moveContainer(map);
+    setTimeout(function () {
+      _this.moveContainer(map);
     }, 100);
 
     return container;
   },
-
-  moveContainer(map) {
-    const mapDom = map.getContainer().parentElement;
-    const controlDom = this.getContainer();
+  moveContainer: function moveContainer(map) {
+    var mapDom = map.getContainer().parentElement;
+    var controlDom = this.getContainer();
 
     mapDom.appendChild(controlDom);
     L.DomUtil.toFront(controlDom);
   },
+  show: function show(data) {
+    var _this2 = this;
 
-  show(data) {
-    const markers = data.markers;
-    const cluster = data.cluster;
+    var markers = data.markers;
+    var cluster = data.cluster;
 
-    const orderedMarkers = markers.sort(this.options.sortFn);
+    var orderedMarkers = markers.sort(this.options.sortFn);
 
-    const rows = orderedMarkers.map((marker, mi) => {
-      let rowClass = mi % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
+    var rows = orderedMarkers.map(function (marker, mi) {
+      var rowClass = mi % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
       rowClass += ' cluster-list-row';
-      return `<tr class="${rowClass}"><td>${this.options.labelFn(marker, mi, cluster)}</td></tr>`;
+      return '<tr class="' + rowClass + '"><td>' + _this2.options.labelFn(marker, mi, cluster) + '</td></tr>';
     });
 
-    const head = this.options.showHeader ? `<div class="cluster-list-header">${this.options.headerFn(markers, cluster)}</div>` : '';
+    var head = this.options.showHeader ? '<div class="cluster-list-header">' + this.options.headerFn(markers, cluster) + '</div>' : '';
 
-    let html = head;
-    html += `<div class="table-wrapper" style="margin-right: ${this.sidePanelWidth()}px">`;
-    html += `<table><tbody>${rows.join('')}</tbody></table>`;
+    var html = head;
+    html += '<div class="table-wrapper" style="margin-right: ' + this.sidePanelWidth() + 'px">';
+    html += '<table><tbody>' + rows.join('') + '</tbody></table>';
     html += '</div>';
     html += this.sidePanelBuild();
 
     this.updateContent(html);
     this.sidePanelBideEvent();
   },
+  sidePanelBideEvent: function sidePanelBideEvent() {
+    var _this3 = this;
 
-  sidePanelBideEvent() {
     if (this.isSidePanel()) {
-      const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
-      sideButton.addEventListener('click', e => this.handleCloseClick());
+      var sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
+      sideButton.addEventListener('click', function (e) {
+        return _this3.handleCloseClick();
+      });
     }
   },
-
-  sidePanelBuild() {
-    let html = '';
+  sidePanelBuild: function sidePanelBuild() {
+    var html = '';
     if (this.isSidePanel()) {
-      html += `<div class="cluster-list-side-panel" style="width: ${this.sidePanelWidth()}px">`;
+      html += '<div class="cluster-list-side-panel" style="width: ' + this.sidePanelWidth() + 'px">';
       html += '<button class="cluster-list-side-panel-button" value="x" ></button>';
       html += '</div>';
     }
     return html;
   },
-
-  isSidePanel() {
+  isSidePanel: function isSidePanel() {
     return this.options.sidePanel;
   },
-
-  sidePanelWidth() {
+  sidePanelWidth: function sidePanelWidth() {
     return this.isSidePanel() ? this.options.sidePanelWidth : 0;
   },
-
-  handleCloseClick() {
+  handleCloseClick: function handleCloseClick() {
     this.group.listCloseButtonClick();
   },
-
-  updateContent(content) {
+  updateContent: function updateContent(content) {
     this.getContainer().innerHTML = content;
   },
-
-  hide() {
+  hide: function hide() {
     this.updateContent('');
   }
-
 });
 
-L.markerClusterGroup.list = (group, options) => {
+L.markerClusterGroup.list = function (group, options) {
   return new L.MarkerCluster.List(group, options);
 };
 /* global L:true, document: true */
@@ -117,7 +114,7 @@ L.MarkerCluster.ListMarker = L.CircleMarker.extend({
     className: 'markercluster-list-marker'
   },
 
-  initialize(latlng, options) {
+  initialize: function initialize(latlng, options) {
     L.Util.setOptions(this, options);
     L.CircleMarker.prototype.initialize.call(this, latlng, options);
   }
@@ -135,11 +132,11 @@ L.MarkerCluster.include({
   _spiderfy: L.MarkerCluster.prototype.spiderfy,
   _unspiderfy: L.MarkerCluster.prototype.unspiderfy,
 
-  spiderfy() {
-    const group = this._group;
+  spiderfy: function spiderfy() {
+    var group = this._group;
 
     if (group.options.list) {
-      const childMarkers = this.getAllChildMarkers();
+      var childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
 
       group.fire('spiderfied', {
@@ -155,13 +152,12 @@ L.MarkerCluster.include({
       this._spiderfy();
     }
   },
-
-  unspiderfy() {
-    const group = this._group;
+  unspiderfy: function unspiderfy() {
+    var group = this._group;
     group.unassignSelectedClass();
 
     if (group.options.list) {
-      const childMarkers = this.getAllChildMarkers();
+      var childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
 
       group.fire('unspiderfied', {
@@ -172,21 +168,18 @@ L.MarkerCluster.include({
       this._unspiderfy();
     }
   },
-
-  assignSelectedClass() {
+  assignSelectedClass: function assignSelectedClass() {
     this._icon.classList.add('marker-cluster-selected');
   }
-
 });
 
 L.Map = L.Map.include({
   _remove: L.Map.prototype.remove,
 
-  setListContainer(container) {
+  setListContainer: function setListContainer(container) {
     this.listContainer = container;
   },
-
-  remove() {
+  remove: function remove() {
     this.listContainer.remove();
     this._remove();
   }
@@ -198,57 +191,59 @@ L.Map = L.Map.include({
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
-    labelFn: (...args) => '...',
-    headerFn: (...args) => '',
-    sortFn: (...args) => 1,
+    labelFn: function labelFn() {
+      return '...';
+    },
+    headerFn: function headerFn() {
+      return '';
+    },
+    sortFn: function sortFn() {
+      return 1;
+    },
     showHeader: false,
     sidePanel: false,
     sidePanelWidth: 50,
     list: true
   },
 
-  initialize(options) {
+  initialize: function initialize(options) {
     L.MarkerClusterGroup.prototype.initialize.call(this, options);
   },
+  onAdd: function onAdd(map) {
+    var _this = this;
 
-  onAdd(map) {
     this.list = L.markerClusterGroup.list(this, this.options);
     this.list.addTo(map);
 
-    this.on('spiderfied', data => {
+    this.on('spiderfied', function (data) {
       // console.log('*****on spiderfied*******')
-      this.refreshList(data);
+      _this.refreshList(data);
     });
 
-    this.on('unspiderfied', data => {
+    this.on('unspiderfied', function (data) {
       // console.log('*****on unspiderfied*******')
-      this.hideList();
+      _this.hideList();
     });
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
-
-  refreshList(data) {
+  refreshList: function refreshList(data) {
     this.options.list ? this.list.show(data) : null;
   },
-
-  hideList() {
+  hideList: function hideList() {
     if (this.list) {
       this.list.hide();
     }
   },
-
-  listCloseButtonClick() {
+  listCloseButtonClick: function listCloseButtonClick() {
     this._spiderfied.unspiderfy();
   },
-
-  clearLayers() {
+  clearLayers: function clearLayers() {
     this.hideList();
     L.MarkerClusterGroup.prototype.clearLayers.call(this);
   },
-
-  unassignSelectedClass() {
-    document.querySelectorAll('div.marker-cluster-selected').forEach(mc => {
+  unassignSelectedClass: function unassignSelectedClass() {
+    document.querySelectorAll('div.marker-cluster-selected').forEach(function (mc) {
       mc.classList.remove('marker-cluster-selected');
     });
   }
