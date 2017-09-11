@@ -167,7 +167,7 @@
       },
       headerFn: function (els, cluster) {
         return '<p>showing cluster with ' + els.length + ' elements</p>';
-      },
+      },  
       sortFn: function (m1, m2) {
         return m1.options.id > m2.options.id ? 1 : -1
       },
@@ -193,6 +193,13 @@
       
       markers.addLayer(marker);
     }
+
+    markers.on('spiderfied', function () {
+      console.log('spiderfied');
+    })
+    markers.on('unspiderfied', function () {
+      console.log('unspiderfied');
+    })
     
     map.addLayer(markers); 
     

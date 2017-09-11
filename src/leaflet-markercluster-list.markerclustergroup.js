@@ -19,15 +19,16 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   onAdd(map) {
-    this.list = L.markerClusterGroup.list(this.options);
+    this.list = L.markerClusterGroup.list(this, this.options);
     this.list.addTo(map);
 
-
     this.on('spiderfied', (data) => {
+      // console.log('*****on spiderfied*******')
       this.refreshList(data);
     });
 
     this.on('unspiderfied', (data) => {
+      // console.log('*****on unspiderfied*******')
       this.hideList();
     });
 
@@ -39,7 +40,13 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
   
   hideList() {
-    this.list ? this.list.hide() : null;
+    if (this.list) {
+      this.list.hide();
+    }
+  },
+
+  listCloseButtonClick() {    
+    this._spiderfied.unspiderfy();
   },
   
   clearLayers() {

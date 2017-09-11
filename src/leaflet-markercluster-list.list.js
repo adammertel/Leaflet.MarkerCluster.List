@@ -8,6 +8,11 @@ L.MarkerCluster.List = L.Control.extend({
     position: 'topright',
   },
 
+  initialize(group, options) {
+    this.group = group;
+    L.Control.prototype.initialize.call(this, options);
+  },
+
   onAdd(map) {
     const container = L.DomUtil.create(
       'div',
@@ -57,7 +62,7 @@ L.MarkerCluster.List = L.Control.extend({
   sidePanelBideEvent() {
     if (this.isSidePanel()) {
       const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
-      sideButton.addEventListener('click', e => this.hide());
+      sideButton.addEventListener('click', e => this.handleCloseClick());
     }
   },
 
@@ -65,7 +70,7 @@ L.MarkerCluster.List = L.Control.extend({
     let html = '';
     if (this.isSidePanel()) {
       html += `<div class="cluster-list-side-panel" style="width: ${this.sidePanelWidth()}px">`;
-      html += '<button onmouseclick="this.hide()" class="cluster-list-side-panel-button" value="x" > </button>';
+      html += '<button class="cluster-list-side-panel-button" value="x" ></button>';
       html += '</div>';
     }
     return html;
@@ -79,16 +84,20 @@ L.MarkerCluster.List = L.Control.extend({
     return this.isSidePanel() ? this.options.sidePanelWidth : 0;
   },
 
+  handleCloseClick () {
+    this.group.listCloseButtonClick();
+  },
+
   updateContent(content) {
     this.getContainer().innerHTML = content;
   },
 
   hide() {
     this.updateContent('');
-  },
+  }
 
 });
 
-L.markerClusterGroup.list = function (options) {
-  return new L.MarkerCluster.List(options);
+L.markerClusterGroup.list = (group, options) => {
+  return new L.MarkerCluster.List(group, options);
 };
