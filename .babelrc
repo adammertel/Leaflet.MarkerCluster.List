@@ -1,1 +1,9 @@
-{ "presets": ["es2015"] }
+{
+  "presets": ["es2015"],
+  "comments": false,
+  "plugins": [
+    ["@comandeer/babel-plugin-banner", {
+      "banner": "/* Adam Mertel | UNIVIE */"
+    }]
+  ]
+}

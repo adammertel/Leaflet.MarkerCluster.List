@@ -4,9 +4,9 @@
 
 .markercluster-list{
     position: absolute;
-    left: 20;
-    right: 20;
-    top: 20;
+    left: 20px;
+    right: 20px;
+    top: 20px;
     z-index: 9999;
     max-height: 200px;
     display: flex;
@@ -17,7 +17,7 @@
 }
 
 .markercluster-list > .table-wrapper {
-    padding: 0 5;
+    padding: 0px 5px;
     overflow-y: auto;
 }
 .markercluster-list > .table-wrapper > table{
@@ -25,7 +25,7 @@
 }
 
 .markercluster-list > .table-wrapper >table > tbody > tr > td{
-    padding: 5
+    padding: 5px
 }
 
 .markercluster-list > .table-wrapper > table > tbody > tr.cluster-list-row-even{
@@ -35,13 +35,13 @@
 .cluster-list-side-panel{
     height: 100%;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 0px;
+    top: 0px;
 }
 
 .marker-cluster.marker-cluster-selected{
     font-weight: 800;
-    color: white
+    color: black
 }
 .marker-cluster.marker-cluster-selected div{
     font-size: 120%;

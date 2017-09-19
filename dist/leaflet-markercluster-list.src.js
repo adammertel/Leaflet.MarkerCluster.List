@@ -1,5 +1,4 @@
-/* global L:true, document: true */
-/* eslint no-underscore-dangle: 0 */
+
 
 'use strict';
 
@@ -96,8 +95,7 @@ L.MarkerCluster.List = L.Control.extend({
 L.markerClusterGroup.list = function (group, options) {
   return new L.MarkerCluster.List(group, options);
 };
-/* global L:true, document: true */
-/* eslint no-underscore-dangle: 0 */
+
 
 'use strict';
 
@@ -123,8 +121,7 @@ L.MarkerCluster.ListMarker = L.CircleMarker.extend({
 L.markerClusterGroup.listMarker = function (latlng, options) {
   return new L.MarkerCluster.ListMarker(latlng, options);
 };
-/* global L:true, document: true */
-/* eslint no-underscore-dangle: 0 */
+
 
 'use strict';
 
@@ -184,8 +181,7 @@ L.Map = L.Map.include({
     this._remove();
   }
 });
-/* global L:true, document: true */
-/* eslint no-underscore-dangle: 0 */
+
 
 'use strict';
 
@@ -216,12 +212,10 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list.addTo(map);
 
     this.on('spiderfied', function (data) {
-      // console.log('*****on spiderfied*******')
       _this.refreshList(data);
     });
 
     this.on('unspiderfied', function (data) {
-      // console.log('*****on unspiderfied*******')
       _this.hideList();
     });
 
