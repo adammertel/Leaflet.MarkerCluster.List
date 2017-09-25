@@ -1,11 +1,13 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.Default.css" />
   <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
   <link href="../dist/leaflet-markercluster-list.css" rel="stylesheet">
+  <link rel="stylesheet" href="demo.css" />
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/leaflet.markercluster.js"></script>
@@ -15,55 +17,6 @@
 
 </head>
 
-<style>
-  body {
-    margin: 0px;
-    font-family: 'PT Sans Narrow', sans-serif;
-  }
-  #map-content {
-    width: 100%;
-    height: 100%;
-    margin: 0
-  }
-  #panel {
-    position: absolute;
-    height: 40%;
-    width: 250px;
-    background-color: white;
-    bottom: 2%;
-    right: 2%;
-    z-index: 999;
-    padding-left: 15px;
-    opacity: 0.9;
-    border: 15px solid white;
-    border-opacity: 0;
-    font-size: 100%;
-  }
-
-  .marker-cluster {
-    opacity: 1 !important
-  }
-
-  .active-cluster-element {
-    opacity: 0.2;
-  }
-
-  .select-row {
-    margin-top: 4px;
-    margin-bottom: 1px;
-    margin-left: 5px
-  }
-
-  h4 {
-    margin-bottom: 2px
-  }
-
-  select {
-    margin-left: 5px
-  }
-</style>
-
-
 <body>
 
   <div id="map-content"></div>
@@ -71,19 +24,22 @@
   <div id="panel">
     <h4>LEAFLET.MARKERCLUSTER.LIST demo1</h4>
     
-    <p class="select-row">header:</p>
+    <p class="select-row">header:
     <input type="checkbox" id="select-header" class="map-refresh-needed">
+    </p>
 
-    <p class="select-row">side panel:</p>
+    <p class="select-row">side panel:
     <input type="checkbox" id="select-side" class="map-refresh-needed" checked>
+    </p>
     
-    <p class="select-row">side-panel width:</p>
+    <p class="select-row">side-panel width:
     <select id="select-side-width" class="map-refresh-needed">
       <option value="40">40px</option>
       <option value="50" checked>50px</option>
       <option value="75">75px</option>
       <option value="100">100px</option>
     </select>
+    </p>
 
     <p><i> Data: random points </i></p>
   </div>
