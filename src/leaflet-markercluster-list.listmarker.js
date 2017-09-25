@@ -1,4 +1,4 @@
-/* global L:true, document: true */
+/* global L:true */
 /* eslint no-underscore-dangle: 0 */
 
 'use strict';

@@ -61,7 +61,7 @@ L.MarkerCluster.List = L.Control.extend({
 
     if (this.isSidePanel()) {
       var sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
-      sideButton.addEventListener('click', function (e) {
+      sideButton.addEventListener('click', function () {
         return _this3.handleCloseClick();
       });
     }
@@ -220,14 +220,16 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
       _this.refreshList(data);
     });
 
-    this.on('unspiderfied', function (data) {
+    this.on('unspiderfied', function () {
       _this.hideList();
     });
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
   refreshList: function refreshList(data) {
-    this.options.list ? this.list.show(data) : null;
+    if (this.options.list) {
+      this.list.show(data);
+    }
   },
   hideList: function hideList() {
     if (this.list) {

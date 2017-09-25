@@ -5,9 +5,9 @@
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   options: {
-    labelFn: (...args) => '...',
-    headerFn: (...args) => '',
-    sortFn: (...args) => 1,
+    labelFn: () => '...',
+    headerFn: () => '',
+    sortFn: () => 1,
     showHeader: false,
     sidePanel: false,
     sidePanelWidth: 50,
@@ -31,7 +31,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
       this.refreshList(data);
     });
 
-    this.on('unspiderfied', (data) => {
+    this.on('unspiderfied', () => {
       // console.log('*****on unspiderfied*******')
       this.hideList();
     });
@@ -40,7 +40,9 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   refreshList(data) {
-    this.options.list ? this.list.show(data) : null;
+    if (this.options.list) {
+      this.list.show(data);
+    }
   },
 
   hideList() {
