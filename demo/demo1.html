@@ -83,6 +83,10 @@
       })
     });
 
+    var clickAction = function(eid) {
+      alert('element ' + eid + ' clicked')
+    }
+
 
     function refreshMap () {
       var baseTiles = 
@@ -103,9 +107,10 @@
 
       baseTiles.addTo(map);
 
+
       var options = {
         labelFn: function (el, ei, cluster) {
-          return '<p>[' + ei + '] ' + el.options.listText + '</p>';
+          return '<p onclick="clickAction(' + el.options.id + ')">[' + ei + '] ' + el.options.listText + '</p>';
         },
         headerFn: function (els, cluster) {
           return '<p>showing cluster with ' + els.length + ' elements</p>';
