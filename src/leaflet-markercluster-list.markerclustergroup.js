@@ -11,7 +11,8 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     showHeader: false,
     sidePanel: false,
     sidePanelWidth: 50,
-    list: true
+    list: true,
+    centerOnChange: false
   },
 
   initialize(options) {
@@ -23,6 +24,9 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list.addTo(map);
 
     this.on('spiderfied', (data) => {
+      if (this.options.centerOnChange) {
+        map.panTo(data.cluster.getLatLng());
+      }
       // console.log('*****on spiderfied*******')
       this.refreshList(data);
     });
@@ -34,23 +38,23 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
 
     L.MarkerClusterGroup.prototype.onAdd.call(this, map);
   },
-  
+
   refreshList(data) {
     this.options.list ? this.list.show(data) : null;
   },
-  
+
   hideList() {
     if (this.list) {
       this.list.hide();
     }
   },
 
-  listCloseButtonClick() {    
+  listCloseButtonClick() {
     this._spiderfied.unspiderfy();
   },
-  
+
   clearLayers() {
-    this.hideList();    
+    this.hideList();
     L.MarkerClusterGroup.prototype.clearLayers.call(this);
   },
 

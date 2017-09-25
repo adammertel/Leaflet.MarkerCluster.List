@@ -199,7 +199,8 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     showHeader: false,
     sidePanel: false,
     sidePanelWidth: 50,
-    list: true
+    list: true,
+    centerOnChange: false
   },
 
   initialize: function initialize(options) {
@@ -212,6 +213,10 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     this.list.addTo(map);
 
     this.on('spiderfied', function (data) {
+      if (_this.options.centerOnChange) {
+        map.panTo(data.cluster.getLatLng());
+      }
+
       _this.refreshList(data);
     });
 

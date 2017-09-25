@@ -38,7 +38,7 @@ L.MarkerCluster.List = L.Control.extend({
     const markers = data.markers;
     const cluster = data.cluster;
 
-    const orderedMarkers = markers.sort( this.options.sortFn )
+    const orderedMarkers = markers.sort(this.options.sortFn);
 
     const rows = orderedMarkers.map((marker, mi) => {
       let rowClass = mi % 2 ? 'cluster-list-row-even' : 'cluster-list-row-odd';
@@ -62,7 +62,7 @@ L.MarkerCluster.List = L.Control.extend({
   sidePanelBideEvent() {
     if (this.isSidePanel()) {
       const sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
-      sideButton.addEventListener('click', e => this.handleCloseClick());
+      sideButton.addEventListener('click', () => this.handleCloseClick());
     }
   },
 
@@ -84,7 +84,7 @@ L.MarkerCluster.List = L.Control.extend({
     return this.isSidePanel() ? this.options.sidePanelWidth : 0;
   },
 
-  handleCloseClick () {
+  handleCloseClick() {
     this.group.listCloseButtonClick();
   },
 
@@ -98,6 +98,4 @@ L.MarkerCluster.List = L.Control.extend({
 
 });
 
-L.markerClusterGroup.list = (group, options) => {
-  return new L.MarkerCluster.List(group, options);
-};
+L.markerClusterGroup.list = (group, options) => new L.MarkerCluster.List(group, options);

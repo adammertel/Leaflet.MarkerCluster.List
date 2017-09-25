@@ -13,34 +13,33 @@ L.MarkerCluster.include({
     if (group.options.list) {
       const childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
-      
+
       group.fire('spiderfied', {
         cluster: this,
         markers: childMarkers
       });
-      
+
       this._map.on('click', this.unspiderfy, this);
-      
+
       group.unassignSelectedClass();
       this.assignSelectedClass();
     } else {
       this._spiderfy();
     }
   },
-  
+
   unspiderfy() {
     const group = this._group;
     group.unassignSelectedClass();
-    
+
     if (group.options.list) {
       const childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
-      
+
       group.fire('unspiderfied', {
         cluster: this,
         markers: childMarkers
       });
-      
     } else {
       this._unspiderfy();
     }

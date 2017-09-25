@@ -31,6 +31,9 @@
     <p class="select-row">side panel:
     <input type="checkbox" id="select-side" class="map-refresh-needed" checked>
     </p>
+    <p class="select-row">center on active element on map change:
+    <input type="checkbox" id="select-center-on-change" class="map-refresh-needed" checked>
+    </p>
     
     <p class="select-row">side-panel width:
     <select id="select-side-width" class="map-refresh-needed">
@@ -87,7 +90,6 @@
       alert('element ' + eid + ' clicked')
     }
 
-
     function refreshMap () {
       var baseTiles = 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -107,7 +109,6 @@
 
       baseTiles.addTo(map);
 
-
       var options = {
         labelFn: function (el, ei, cluster) {
           return '<p onclick="clickAction(' + el.options.id + ')">[' + ei + '] ' + el.options.listText + '</p>';
@@ -121,10 +122,15 @@
         showHeader: $('#select-header')[0].checked,
         sidePanel: $('#select-side')[0].checked,
         sidePanelWidth: $('#select-side-width').val(),
+        centerOnChange: $('#select-center-on-change')[0].checked,
         showCoverageOnHover: false,
       }
 
       var markers = L.markerClusterGroup.withList(options);
+
+      markers.on('click', function(m) {
+        clickAction(m.layer.options.id);
+      })
 
       // parse data
       for (var di in data) {
