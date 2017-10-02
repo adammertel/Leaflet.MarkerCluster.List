@@ -3,14 +3,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css" />
   <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
   <link href="../dist/leaflet-markercluster-list.css" rel="stylesheet">
   <link rel="stylesheet" href="demo.css" />
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.6/leaflet.markercluster.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <script src="../dist/leaflet-markercluster-list.src.js"></script>
@@ -31,7 +31,7 @@
     <p class="select-row">side panel:
     <input type="checkbox" id="select-side" class="map-refresh-needed" checked>
     </p>
-    <p class="select-row">center on active element on map change:
+    <p class="select-row">center to the active element on map change:
     <input type="checkbox" id="select-center-on-change" class="map-refresh-needed" checked>
     </p>
     
@@ -111,10 +111,10 @@
 
       var options = {
         labelFn: function (el, ei, cluster) {
-          return '<p onclick="clickAction(' + el.options.id + ')">[' + ei + '] ' + el.options.listText + '</p>';
+          return '<p style="cursor: pointer" onclick="clickAction(' + el.options.id + ')">[' + ei + '] ' + el.options.listText + '</p>';
         },
         headerFn: function (els, cluster) {
-          return '<p>showing cluster with ' + els.length + ' elements</p>';
+          return '<p>cluster with ' + els.length + ' elements</p>';
         },
         sortFn: function (m1, m2) {
           return m1.options.id > m2.options.id ? 1 : -1
