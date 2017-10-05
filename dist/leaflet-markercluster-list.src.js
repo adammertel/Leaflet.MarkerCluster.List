@@ -61,7 +61,7 @@ L.MarkerCluster.List = L.Control.extend({
     var _this3 = this;
 
     if (this.isSidePanel()) {
-      var sideButton = document.querySelectorAll('.cluster-list-side-panel button')[0];
+      var sideButton = document.getElementById('cluster-list-side-panel-button');
       sideButton.addEventListener('click', function () {
         return _this3.handleCloseClick();
       });
@@ -71,7 +71,7 @@ L.MarkerCluster.List = L.Control.extend({
     var html = '';
     if (this.isSidePanel()) {
       html += '<div class="cluster-list-side-panel" style="width: ' + this.sidePanelWidth() + 'px">';
-      html += '<button class="cluster-list-side-panel-button" value="x" ></button>';
+      html += '<button id="cluster-list-side-panel-button" class="cluster-list-side-panel-button" value="x" ></button>';
       html += '</div>';
     }
     return html;

@@ -47,8 +47,7 @@ L.MarkerCluster.include({
 
   assignSelectedClass() {
     this._icon.classList.add('marker-cluster-selected');
-  },
-
+  }
 });
 
 L.Map = L.Map.include({
