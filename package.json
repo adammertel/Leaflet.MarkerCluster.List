@@ -1,6 +1,6 @@
 {
   "name": "leaflet.markercluster.list",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "leaflet.markercluster subplugin that lists all clustered elements in a table, suitable for mobile devices",
   "keywords": [
     "leaflet",
