@@ -16,6 +16,7 @@
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-plugin-transform-remove-console": "^6.8.4",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-es2016": "^6.24.1",
     "copyfiles": "^1.2.0",
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.3.1",
