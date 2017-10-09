@@ -13,14 +13,14 @@ L.MarkerCluster.include({
     if (group.options.list) {
       const childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
-
+      
       group.fire('spiderfied', {
         cluster: this,
         markers: childMarkers
       });
-
+      
       this._map.on('click', this.unspiderfy, this);
-
+      
       group.unassignSelectedClass();
       this.assignSelectedClass();
     } else {

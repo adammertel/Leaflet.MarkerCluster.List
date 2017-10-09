@@ -252,7 +252,14 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     L.MarkerClusterGroup.prototype.clearLayers.call(this);
   },
   unassignSelectedClass: function unassignSelectedClass() {
-    document.querySelectorAll('div.marker-cluster-selected').forEach(function (mc) {
+    var selectedClusterElements = document.getElementsByClassName('marker-cluster-selected');
+    var selectedClusterArray = [];
+    for (var i = 0; i < selectedClusterElements.length; i++) {
+      selectedClusterArray.push(selectedClusterElements[i]);
+    };
+
+    selectedClusterArray.map(function (mc) {
+      console.log(mc);
       mc.classList.remove('marker-cluster-selected');
     });
   }

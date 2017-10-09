@@ -62,7 +62,14 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   unassignSelectedClass() {
-    document.querySelectorAll('div.marker-cluster-selected').forEach((mc) => {
+    const selectedClusterElements = document.getElementsByClassName('marker-cluster-selected');
+    const selectedClusterArray = [];
+    for(var i = 0; i < selectedClusterElements.length; i++) {
+      selectedClusterArray.push(selectedClusterElements[i]);
+    };
+
+    selectedClusterArray.map(mc => {
+      console.log(mc)
       mc.classList.remove('marker-cluster-selected');
     });
   }
