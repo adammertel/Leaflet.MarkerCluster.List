@@ -50,16 +50,18 @@ L.MarkerCluster.List = L.Control.extend({
       `<div class="cluster-list-header">${this.options.headerFn(markers, cluster)}</div>` : '';
 
     let html = head;
+    html += `<div id="marker-cluster-list-content">`;
     html += `<div class="table-wrapper" style="margin-right: ${this.sidePanelWidth()}px">`;
     html += `<table><tbody>${rows.join('')}</tbody></table>`;
     html += '</div>';
     html += this.sidePanelBuild();
+    html += '</div>';
 
     this.updateContent(html);
-    this.sidePanelBideEvent();
+    this.sidePanelBindEvent();
   },
 
-  sidePanelBideEvent() {
+  sidePanelBindEvent() {
     if (this.isSidePanel()) {
       const sideButton = document.getElementById('cluster-list-side-panel-button');
       sideButton.addEventListener('click', () => this.handleCloseClick());

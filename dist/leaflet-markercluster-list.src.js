@@ -49,15 +49,17 @@ L.MarkerCluster.List = L.Control.extend({
     var head = this.options.showHeader ? '<div class="cluster-list-header">' + this.options.headerFn(markers, cluster) + '</div>' : '';
 
     var html = head;
+    html += '<div id="marker-cluster-list-content">';
     html += '<div class="table-wrapper" style="margin-right: ' + this.sidePanelWidth() + 'px">';
     html += '<table><tbody>' + rows.join('') + '</tbody></table>';
     html += '</div>';
     html += this.sidePanelBuild();
+    html += '</div>';
 
     this.updateContent(html);
-    this.sidePanelBideEvent();
+    this.sidePanelBindEvent();
   },
-  sidePanelBideEvent: function sidePanelBideEvent() {
+  sidePanelBindEvent: function sidePanelBindEvent() {
     var _this3 = this;
 
     if (this.isSidePanel()) {
@@ -237,11 +239,12 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     }
   },
   hideList: function hideList() {
-    if (this.list) {
+    if (this.options.list === true) {
       this.list.hide();
     }
   },
   listCloseButtonClick: function listCloseButtonClick() {
+    this.hideList();
     this._spiderfied.unspiderfy();
   },
   clearLayers: function clearLayers() {

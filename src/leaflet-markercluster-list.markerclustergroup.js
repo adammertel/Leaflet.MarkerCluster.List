@@ -46,12 +46,13 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   hideList() {
-    if (this.list) {
+    if (this.options.list === true) {
       this.list.hide();
     }
   },
 
   listCloseButtonClick() {
+    this.hideList();
     this._spiderfied.unspiderfy();
   },
 
