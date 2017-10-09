@@ -244,7 +244,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     }
   },
   listCloseButtonClick: function listCloseButtonClick() {
-    this.hideList();
+    // this.hideList();
     this._spiderfied.unspiderfy();
   },
   clearLayers: function clearLayers() {

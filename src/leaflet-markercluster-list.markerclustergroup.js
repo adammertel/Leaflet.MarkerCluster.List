@@ -52,7 +52,7 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
 
   listCloseButtonClick() {
-    this.hideList();
+    // this.hideList();
     this._spiderfied.unspiderfy();
   },
 
