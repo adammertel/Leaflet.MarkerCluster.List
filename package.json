@@ -10,34 +10,33 @@
   "author": "Adam Mertel, University of Vienna",
   "license": "ISC",
   "main": "dist/leaflet-markercluster.list.js",
-  "devDependencies": {
-    "@comandeer/babel-plugin-banner": "^1.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-header-comment": "^1.0.3",
-    "babel-plugin-transform-remove-console": "^6.8.4",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2016": "^6.24.1",
-    "copyfiles": "^1.2.0",
-    "eslint": "^4.2.0",
-    "eslint-config-airbnb-base": "^11.3.1",
-    "eslint-plugin-import": "^2.7.0",
-    "mkdirp": "latest",
-    "npm-run-all": "^4.0.2",
-    "onchange": "^2.5.0"
-  },
   "files": [
     "dist",
     "src",
     "demo"
   ],
   "scripts": {
+    "banners": "run-s banner-js-src banner-js banner-css",
+    "banner-js-src": "concat-cli -f banner dist/leaflet-markercluster-list.src.js -o dist/leaflet-markercluster-list.src.js",
+    "banner-js": "concat-cli -f banner dist/leaflet-markercluster-list.js -o dist/leaflet-markercluster-list.js",
+    "banner-css": "concat-cli -f banner dist/leaflet-markercluster-list.css -o dist/leaflet-markercluster-list.css",
     "create-dist-folder": "mkdirp dist",
-    "eslint": "eslint --fix src",
     "babel": "babel src --out-file dist/leaflet-markercluster-list.src.js",
-    "minify": "babel dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified --no-comments",
-    "move-css": "copyfiles -f src/leaflet-markercluster-list.css dist",
-    "onchange": "onchange src/**/*.** -- npm run build",
-    "build": "run-s create-dist-folder move-css babel minify",
-    "start": "run-p create-dist-folder onchange build move-css"
+    "minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified --no-comments",
+    "onchange-js": "onchange src/**/*.js -- npm run build",
+    "onchange-css": "onchange src/**/*.scss -- npm run sass",
+    "sass": "npm-sass src/leaflet-markercluster-list.scss > dist/leaflet-markercluster-list.css",
+    "build": "run-s create-dist-folder sass babel minify banners",
+    "start": "run-p onchange-css onchange-js build"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-minify-mangle-names": "^0.5.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-preset-env": "^1.7.0",
+    "concat-cli": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "npm-sass": "^2.3.0",
+    "onchange": "^5.2.0"
   }
 }
