@@ -1,63 +1,49 @@
-.markercluster-list, .markercluster-list .table-wrapper{
-    background-color: lightgrey;
-}
+.markercluster-list {
+  background-color: lightgrey;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  z-index: 9999; }
+  .markercluster-list .table-wrapper {
+    background-color: lightgrey; }
 
-.markercluster-list{
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    top: 20px;
-    z-index: 9999;
-}
-
-.cluster-list-header{
-    padding: 0px 10px;
-}
+.cluster-list-header {
+  padding: 0px 10px; }
 
 .markercluster-list .table-wrapper {
-    overflow-y: auto;
-    max-height: 200px;
-}
-.markercluster-list .table-wrapper table{
-    width: 100%;
-}
+  overflow-y: auto;
+  max-height: 200px; }
+  .markercluster-list .table-wrapper table {
+    width: 100%; }
+    .markercluster-list .table-wrapper table tbody tr td {
+      padding: 5px; }
+    .markercluster-list .table-wrapper table tbody tr.cluster-list-row-even {
+      background-color: grey; }
 
-.markercluster-list .table-wrapper table tbody tr td{
-    padding: 5px
-}
+.cluster-list-side-panel {
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  top: 0px; }
 
-.markercluster-list .table-wrapper table tbody tr.cluster-list-row-even{
-    background-color: grey;
-}
-
-.cluster-list-side-panel{
-    height: 100%;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-}
-
-.marker-cluster.marker-cluster-selected{
-    font-weight: 800;
-    color: white
-}
-.marker-cluster.marker-cluster-selected div{
+.marker-cluster.marker-cluster-selected {
+  font-weight: 800;
+  color: white; }
+  .marker-cluster.marker-cluster-selected div {
     font-size: 120%;
-    font-weight: bold;
-}
+    font-weight: bold; }
 
-.cluster-list-side-panel-button{
-    padding: 5px;
-    margin: 5px;
-    color: white;
-    font-weight: 800;
-    font-size: 15px;
-    background: grey;
-    border: none;
-    width: 80%;
-    height: 30px;
-    cursor: pointer;
-}
-.cluster-list-side-panel-button:after{
-    content: 'x'
-}
+.cluster-list-side-panel-button {
+  padding: 5px;
+  margin: 5px;
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+  background: grey;
+  border: none;
+  width: 80%;
+  height: 30px;
+  cursor: pointer; }
+  .cluster-list-side-panel-button:after {
+    content: "x"; }

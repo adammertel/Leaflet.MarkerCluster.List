@@ -1,0 +1,63 @@
+.markercluster-list {
+  background-color: lightgrey;
+  .table-wrapper {
+    background-color: lightgrey;
+  }
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  z-index: 9999;
+}
+
+.cluster-list-header {
+  padding: 0px 10px;
+}
+
+.markercluster-list .table-wrapper {
+  overflow-y: auto;
+  max-height: 200px;
+  table {
+    width: 100%;
+    tbody tr {
+      td {
+        padding: 5px;
+      }
+      &.cluster-list-row-even {
+        background-color: grey;
+      }
+    }
+  }
+}
+
+.cluster-list-side-panel {
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.marker-cluster.marker-cluster-selected {
+  font-weight: 800;
+  color: white;
+  div {
+    font-size: 120%;
+    font-weight: bold;
+  }
+}
+
+.cluster-list-side-panel-button {
+  padding: 5px;
+  margin: 5px;
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+  background: grey;
+  border: none;
+  width: 80%;
+  height: 30px;
+  cursor: pointer;
+  &:after {
+    content: "x";
+  }
+}
