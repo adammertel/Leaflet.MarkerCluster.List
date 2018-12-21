@@ -1,153 +1,215 @@
 <html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css" />
-  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
-  <link href="../dist/leaflet-markercluster-list.css" rel="stylesheet">
-  <link rel="stylesheet" href="demo.css" />
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-16" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow"
+      rel="stylesheet"
+    />
+    <link href="../dist/leaflet-markercluster-list.css" rel="stylesheet" />
+    <link rel="stylesheet" href="demo.css" />
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    ></script>
 
-  <script src="../dist/leaflet-markercluster-list.src.js"></script>
+    <script src="../dist/leaflet-markercluster-list.src.js"></script>
+  </head>
 
-</head>
+  <body>
+    <div id="map-content"></div>
 
-<body>
+    <div id="panel">
+      <h4>LEAFLET.MARKERCLUSTER.LIST demo1</h4>
 
-  <div id="map-content"></div>
+      <p class="select-row">
+        header:
+        <input type="checkbox" id="select-header" class="map-refresh-needed" />
+      </p>
 
-  <div id="panel">
-    <h4>LEAFLET.MARKERCLUSTER.LIST demo1</h4>
-    
-    <p class="select-row">header:
-    <input type="checkbox" id="select-header" class="map-refresh-needed">
-    </p>
+      <p class="select-row">
+        side panel:
+        <input
+          type="checkbox"
+          id="select-side"
+          class="map-refresh-needed"
+          checked
+        />
+      </p>
+      <p class="select-row">
+        center to the active element on map change:
+        <input
+          type="checkbox"
+          id="select-center-on-change"
+          class="map-refresh-needed"
+          checked
+        />
+      </p>
 
-    <p class="select-row">side panel:
-    <input type="checkbox" id="select-side" class="map-refresh-needed" checked>
-    </p>
-    <p class="select-row">center to the active element on map change:
-    <input type="checkbox" id="select-center-on-change" class="map-refresh-needed" checked>
-    </p>
-    
-    <p class="select-row">side-panel width:
-    <select id="select-side-width" class="map-refresh-needed">
-      <option value="40">40px</option>
-      <option value="50" checked>50px</option>
-      <option value="75">75px</option>
-      <option value="100">100px</option>
-    </select>
-    </p>
+      <p class="select-row">
+        side-panel width:
+        <select id="select-side-width" class="map-refresh-needed">
+          <option value="40">40px</option>
+          <option value="50" checked>50px</option>
+          <option value="75">75px</option>
+          <option value="100">100px</option>
+        </select>
+      </p>
 
-    <p><i> Data: random points </i></p>
-  </div>
-  <script>
+      <p><i> Data: random points </i></p>
+    </div>
+    <script>
+      // global variables
+      var map;
 
-    // global variables
-    var map;
+      // creates extent for random data
+      var maxX = 49,
+        minX = 48.8,
+        minY = 18.0,
+        maxY = 18.3;
+      var mapZoom = 14;
+      var mapPosition = [(maxX + minX) / 2, (maxY + minY) / 2];
 
-    // creates extent for random data
-    var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
-    var mapZoom = 14;
-    var mapPosition = [(maxX + minX)/2, (maxY + minY)/2];
+      // creating random data
+      var noTestData = 7000;
+      var data = [];
+      for (var i = 0; i < noTestData; i++) {
+        data.push({
+          id: i,
+          x: minX + Math.random() * (maxX - minX),
+          y: minY + Math.random() * (maxY - minY),
+          type: Math.floor(Math.random() * 6)
+        });
+      }
 
-    // creating random data
-    var noTestData = 7000;
-    var data = [];
-    for (var i=0; i < noTestData; i++) {
-      data.push ({
-        id: i,
-        x: minX + Math.random() * (maxX - minX),
-        y: minY + Math.random() * (maxY - minY),
-        type: Math.floor(Math.random() * 6)
-      });
-    }
+      // colorbrewer 2
+      var colors = [
+        "#e41a1c",
+        "#377eb8",
+        "#4daf4a",
+        "#984ea3",
+        "#ff7f00",
+        "#ffff33"
+      ];
 
-    // colorbrewer 2
-    var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
-
-    var circleStyle = function(point) {
-      return {
-        fillColor: colors[point.type],
-        id: point.id,
-        listText: 'random point ' + point.id
+      var circleStyle = function(point) {
+        return {
+          fillColor: colors[point.type],
+          id: point.id,
+          listText: "random point " + point.id
+        };
       };
-    };
 
-    $( document ).ready(function(){
-      refreshMap();
-      $('.map-refresh-needed').change(function () {
-      	refreshMap()
-      })
-    });
+      $(document).ready(function() {
+        refreshMap();
+        $(".map-refresh-needed").change(function() {
+          refreshMap();
+        });
+      });
 
-    var clickAction = function(eid) {
-      alert('element ' + eid + ' clicked')
-    }
+      var clickAction = function(eid) {
+        alert("element " + eid + " clicked");
+      };
 
-    function refreshMap () {
-      var baseTiles = 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-          opacity: parseFloat($('#mapopacity-select').val())
-        })
+      function refreshMap() {
+        var baseTiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+          opacity: parseFloat($("#mapopacity-select").val())
+        });
 
-      // setting map
-      if (map) {map.remove();}
+        // setting map
+        if (map) {
+          map.remove();
+        }
 
-      map = L.map('map-content', {maxZoom: 14, zoomControl: false}).setView(mapPosition, mapZoom);
-      L.control.zoom({
-        position:'bottomleft'
-      }).addTo(map);
-      map.on('zoomend', function () { mapZoom = map.getZoom(); });
-      map.on('moveend', function () { mapPosition = map.getCenter(); });
-
-      baseTiles.addTo(map);
-
-      var options = {
-        labelFn: function (el, ei, cluster) {
-          return '<p style="cursor: pointer" onclick="clickAction(' + el.options.id + ')">[' + ei + '] ' + el.options.listText + '</p>';
-        },
-        headerFn: function (els, cluster) {
-          return '<p>cluster with ' + els.length + ' elements</p>';
-        },
-        sortFn: function (m1, m2) {
-          return m1.options.id > m2.options.id ? 1 : -1
-        },
-        showHeader: $('#select-header')[0].checked,
-        sidePanel: $('#select-side')[0].checked,
-        sidePanelWidth: $('#select-side-width').val(),
-        centerOnChange: $('#select-center-on-change')[0].checked,
-        showCoverageOnHover: false,
-      }
-
-      var markers = L.markerClusterGroup.withList(options);
-
-      markers.on('click', function(m) {
-        clickAction(m.layer.options.id);
-      })
-
-      // parse data
-      for (var di in data) {
-        var point = data[di];
-        var style = circleStyle(point);
-        var marker = L.markerClusterGroup.listMarker(
-          [point.x, point.y], 
-          style
+        map = L.map("map-content", { maxZoom: 14, zoomControl: false }).setView(
+          mapPosition,
+          mapZoom
         );
+        L.control
+          .zoom({
+            position: "bottomleft"
+          })
+          .addTo(map);
+        map.on("zoomend", function() {
+          mapZoom = map.getZoom();
+        });
+        map.on("moveend", function() {
+          mapPosition = map.getCenter();
+        });
 
-        markers.addLayer(marker);
+        baseTiles.addTo(map);
+
+        var options = {
+          labelFn: function(el, ei, cluster) {
+            return (
+              '<p style="cursor: pointer" onclick="clickAction(' +
+              el.options.id +
+              ')">[' +
+              ei +
+              "] " +
+              el.options.listText +
+              "</p>"
+            );
+          },
+          headerFn: function(els, cluster) {
+            return "<p>cluster with " + els.length + " elements</p>";
+          },
+          sortFn: function(m1, m2) {
+            return m1.options.id > m2.options.id ? 1 : -1;
+          },
+          showHeader: $("#select-header")[0].checked,
+          sidePanel: $("#select-side")[0].checked,
+          sidePanelWidth: $("#select-side-width").val(),
+          centerOnChange: $("#select-center-on-change")[0].checked,
+          showCoverageOnHover: false
+        };
+
+        var markers = L.markerClusterGroup.withList(options);
+
+        markers.on("click", function(m) {
+          clickAction(m.layer.options.id);
+        });
+
+        // parse data
+        for (var di in data) {
+          var point = data[di];
+          var style = circleStyle(point);
+          var marker = L.markerClusterGroup.listMarker(
+            [point.x, point.y],
+            style
+          );
+
+          markers.addLayer(marker);
+        }
+
+        map.addLayer(markers);
       }
-
-      map.addLayer(markers);
-    }
-
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

@@ -1,173 +1,216 @@
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
-    
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet-src.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-16" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet-src.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    ></script>
+
     <script src="./leaflet-markercluster.placementstrategies.js"></script>
     <script src="./../dist/leaflet-markercluster-list.src.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css" />
-    <link href="./../dist/leaflet-markercluster-list.css" rel="stylesheet">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"
+    />
+    <link href="./../dist/leaflet-markercluster-list.css" rel="stylesheet" />
     <link rel="stylesheet" href="demo.css" />
-  
   </head>
 
   <body>
     <div id="map-content"></div>
-  
+
     <div id="panel">
       <h4>LEAFLET.MARKERCLUSTER.LIST demo2</h4>
-      <p>toggling between <b>List</b> and <b>PlacementStrategy</b> plugins based on the window size</p>
-  
-      <p class="select-row">maximal width to use List in px:
-      <select id="select-windows-width" class="map-refresh-needed">
-        <option value="700">700px</option>
-        <option value="800">800px</option>
-        <option value="900">900px</option>
-        <option value="1000" checked>1000px</option>
-      </select>
+      <p>
+        toggling between <b>List</b> and <b>PlacementStrategy</b> plugins based
+        on the window size
       </p>
-      
+
+      <p class="select-row">
+        maximal width to use List in px:
+        <select id="select-windows-width" class="map-refresh-needed">
+          <option value="700">700px</option>
+          <option value="800">800px</option>
+          <option value="900">900px</option>
+          <option value="1000" checked>1000px</option>
+        </select>
+      </p>
+
       <p>Actual mode: <b id="actual-mode"> </b></p>
       <p><i> Data: random points </i></p>
-
     </div>
     <script>
-
-      
-    var checkMode = function () {
-      var newMode = $( window ).width() < $('#select-windows-width').val() ?
-      true : false;
-      if (newMode !== list) {
-        list = newMode;
-        refreshMap()
+      var checkMode = function() {
+        var newMode =
+          $(window).width() < $("#select-windows-width").val() ? true : false;
+        if (newMode !== list) {
+          list = newMode;
+          refreshMap();
+        }
       };
-    }
 
-    $( window ).resize(function() {setTimeout(function() {checkMode()}, 500)});
-    setTimeout(function() {checkMode()}, 1500);
-      
-    // global variables
-    var map;
-    var list = true;
-
-
-    // creates extent for random data
-    var maxX = 49, minX = 48.8, minY = 18.0, maxY = 18.3;
-    var mapZoom = 14;
-    var mapPosition = [(maxX + minX)/2, (maxY + minY)/2];
-
-    // creating random data
-    var noTestData = 7000;
-    var data = [];
-    for (var i=0; i < noTestData; i++) {
-      data.push ({
-        id: i,
-        x: minX + Math.random() * (maxX - minX),
-        y: minY + Math.random() * (maxY - minY),
-        type: Math.floor(Math.random() * 6)
+      $(window).resize(function() {
+        setTimeout(function() {
+          checkMode();
+        }, 500);
       });
-    }
-    
-    // colorbrewer 2
-    var colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33'];
-    var markers;
+      setTimeout(function() {
+        checkMode();
+      }, 1500);
 
-    var circleStyle = function(point) {
-      return {
-        fillColor: colors[point.type],
-        id: point.id,
-        listText: 'random point ' + point.id
+      // global variables
+      var map;
+      var list = true;
+
+      // creates extent for random data
+      var maxX = 49,
+        minX = 48.8,
+        minY = 18.0,
+        maxY = 18.3;
+      var mapZoom = 14;
+      var mapPosition = [(maxX + minX) / 2, (maxY + minY) / 2];
+
+      // creating random data
+      var noTestData = 7000;
+      var data = [];
+      for (var i = 0; i < noTestData; i++) {
+        data.push({
+          id: i,
+          x: minX + Math.random() * (maxX - minX),
+          y: minY + Math.random() * (maxY - minY),
+          type: Math.floor(Math.random() * 6)
+        });
+      }
+
+      // colorbrewer 2
+      var colors = [
+        "#e41a1c",
+        "#377eb8",
+        "#4daf4a",
+        "#984ea3",
+        "#ff7f00",
+        "#ffff33"
+      ];
+      var markers;
+
+      var circleStyle = function(point) {
+        return {
+          fillColor: colors[point.type],
+          id: point.id,
+          listText: "random point " + point.id
+        };
       };
-    };
 
-    var baseTiles = 
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        opacity: parseFloat($('#mapopacity-select').val())
-    })
+      var baseTiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        opacity: parseFloat($("#mapopacity-select").val())
+      });
 
-    $( document ).ready(function(){
-      refreshMap();
-      $('.map-refresh-needed').change(function () {
+      $(document).ready(function() {
         refreshMap();
-      })
-    });
+        $(".map-refresh-needed").change(function() {
+          refreshMap();
+        });
+      });
 
-    // setting map
-    if (map) {map.remove()};
-    
-    map = L.map('map-content', 
-      {maxZoom: 14, zoomControl: false}
-    ).setView(mapPosition, mapZoom);
-    
-    L.control.zoom({position:'bottomleft'}).addTo(map);
-    map.on('zoomend', function () { mapZoom = map.getZoom() });
-    map.on('moveend', function () { mapPosition = map.getCenter() });
-    baseTiles.addTo(map);
-    
-    
-    var options = {
-      labelFn: function (el, ei, cluster) {
-        return '<p>[' + ei + '] ' + el.options.listText + '</p>';
-      },
-      headerFn: function (els, cluster) {
-        return '<p>showing cluster with ' + els.length + ' elements</p>';
-      },  
-      sortFn: function (m1, m2) {
-        return m1.options.id > m2.options.id ? 1 : -1
-      },
-      showHeader: true,
-      sidePanel: true,
-      list: list,
-      sidePanelWidth: 40,
-      showCoverageOnHover: false,
-      
-      elementsPlacementStrategy: 'clock',
-    }
-    
-    if (markers && markers.clearLayers) { markers.clearLayers() }
-    markers = L.markerClusterGroup.withList(options);
-    // parse data
-    for (var di in data) {
-      var point = data[di];
-      var style = circleStyle(point);
-      var marker = L.markerClusterGroup.listMarker(
-        [point.x, point.y], 
-        style
+      // setting map
+      if (map) {
+        map.remove();
+      }
+
+      map = L.map("map-content", { maxZoom: 14, zoomControl: false }).setView(
+        mapPosition,
+        mapZoom
       );
-      
-      markers.addLayer(marker);
-    }
 
-    markers.on('spiderfied', function () {
-      console.log('spiderfied');
-    })
-    markers.on('unspiderfied', function () {
-      console.log('unspiderfied');
-    })
-    
-    map.addLayer(markers); 
-    
-    function refreshMap () {
-      markers.unspiderfy();
-      L.setOptions(markers, {list: list})
-      
-      markers.refreshClusters();
-      markers.list.hide(); 
+      L.control.zoom({ position: "bottomleft" }).addTo(map);
+      map.on("zoomend", function() {
+        mapZoom = map.getZoom();
+      });
+      map.on("moveend", function() {
+        mapPosition = map.getCenter();
+      });
+      baseTiles.addTo(map);
 
-      $('#actual-mode').html(list ? 'list' : 'placement-strategies'); 
-    }
-  
-  
-  </script>
+      var options = {
+        labelFn: function(el, ei, cluster) {
+          return "<p>[" + ei + "] " + el.options.listText + "</p>";
+        },
+        headerFn: function(els, cluster) {
+          return "<p>showing cluster with " + els.length + " elements</p>";
+        },
+        sortFn: function(m1, m2) {
+          return m1.options.id > m2.options.id ? 1 : -1;
+        },
+        showHeader: true,
+        sidePanel: true,
+        list: list,
+        sidePanelWidth: 40,
+        showCoverageOnHover: false,
+        spiderLegPolylineOptions: { weight: 0 },
+        elementsPlacementStrategy: "clock"
+      };
+
+      if (markers && markers.clearLayers) {
+        markers.clearLayers();
+      }
+      markers = L.markerClusterGroup.withList(options);
+      // parse data
+      for (var di in data) {
+        var point = data[di];
+        var style = circleStyle(point);
+        var marker = L.markerClusterGroup.listMarker([point.x, point.y], style);
+
+        markers.addLayer(marker);
+      }
+
+      markers.on("spiderfied", function() {
+        console.log("spiderfied");
+      });
+      markers.on("unspiderfied", function() {
+        console.log("unspiderfied");
+      });
+
+      map.addLayer(markers);
+
+      function refreshMap() {
+        if (markers && markers.clearLayers) {
+          markers.unspiderfy();
+          L.setOptions(markers, { list: list });
+
+          markers.refreshClusters();
+          markers.list.hide();
+
+          $("#actual-mode").html(list ? "list" : "placement-strategies");
+        }
+      }
+    </script>
   </body>
-  
-  </html>
+</html>
