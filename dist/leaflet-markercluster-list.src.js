@@ -1,3 +1,8 @@
+/*
+  leaflet control list plugin
+  https://github.com/adammertel/Leaflet.Control.List
+  Adam Mertel | univie
+*/
 /* global L:true, document: true */
 /* eslint no-underscore-dangle: 0 */
 
