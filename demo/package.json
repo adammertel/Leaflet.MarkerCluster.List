@@ -1,0 +1,17 @@
+{
+  "name": "leaflet.markercluster.list.demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "leaflet-markercluster.placementstrategies.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Mertel",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
+    "leaflet.markercluster.placementstrategies": "^0.1.8"
+  }
+}
