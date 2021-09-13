@@ -9,7 +9,7 @@
   ],
   "author": "Adam Mertel, University of Vienna",
   "license": "ISC",
-  "main": "dist/leaflet-markercluster.list.js",
+  "main": "dist/leaflet-markercluster-list.js",
   "files": [
     "dist"
   ],
