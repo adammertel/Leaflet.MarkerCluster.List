@@ -23,11 +23,10 @@
     "minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet-markercluster-list.src.js --out-file dist/leaflet-markercluster-list.js --minified --no-comments",
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
-    "sass": "npm-sass src/leaflet-markercluster-list.scss > dist/leaflet-markercluster-list.css",
+    "sass": "sass src/leaflet-markercluster-list.scss > dist/leaflet-markercluster-list.css",
     "build": "run-s create-dist-folder sass babel minify banners",
     "start": "run-p onchange-css onchange-js build"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.7.7",
@@ -35,8 +34,9 @@
     "babel-plugin-minify-mangle-names": "^0.5.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "concat-cli": "^4.0.0",
+    "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.5",
-    "npm-sass": "^2.3.0",
-    "onchange": "^6.1.0"
+    "onchange": "^6.1.0",
+    "sass": "^1.77.8"
   }
 }

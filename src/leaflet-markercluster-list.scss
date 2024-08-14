@@ -1,13 +1,13 @@
 .markercluster-list {
   background-color: lightgrey;
-  .table-wrapper {
-    background-color: lightgrey;
-  }
   position: absolute;
   left: 20px;
   right: 20px;
   top: 20px;
   z-index: 9999;
+  .table-wrapper {
+    background-color: lightgrey;
+  }
 }
 
 .cluster-list-header {
