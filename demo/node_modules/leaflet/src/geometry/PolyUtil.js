@@ -1,5 +1,7 @@
 import * as LineUtil from './LineUtil';
-
+import {toLatLng} from '../geo/LatLng';
+import {toPoint} from './Point';
+import {toLatLngBounds} from '../geo/LatLngBounds';
 /*
  * @namespace PolyUtil
  * Various utility functions for polygon geometries.
@@ -52,4 +54,76 @@ export function clipPolygon(points, bounds, round) {
 	}
 
 	return points;
+}
+
+/* @function polygonCenter(latlngs: LatLng[], crs: CRS): LatLng
+ * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polygon.
+ */
+export function polygonCenter(latlngs, crs) {
+	var i, j, p1, p2, f, area, x, y, center;
+
+	if (!latlngs || latlngs.length === 0) {
+		throw new Error('latlngs not passed');
+	}
+
+	if (!LineUtil.isFlat(latlngs)) {
+		console.warn('latlngs are not flat! Only the first ring will be used');
+		latlngs = latlngs[0];
+	}
+
+	var centroidLatLng = toLatLng([0, 0]);
+
+	var bounds = toLatLngBounds(latlngs);
+	var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+	// tests showed that below 1700 rounding errors are happening
+	if (areaBounds < 1700) {
+		// getting a inexact center, to move the latlngs near to [0, 0] to prevent rounding errors
+		centroidLatLng = centroid(latlngs);
+	}
+
+	var len = latlngs.length;
+	var points = [];
+	for (i = 0; i < len; i++) {
+		var latlng = toLatLng(latlngs[i]);
+		points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+	}
+
+	area = x = y = 0;
+
+	// polygon centroid algorithm;
+	for (i = 0, j = len - 1; i < len; j = i++) {
+		p1 = points[i];
+		p2 = points[j];
+
+		f = p1.y * p2.x - p2.y * p1.x;
+		x += (p1.x + p2.x) * f;
+		y += (p1.y + p2.y) * f;
+		area += f * 3;
+	}
+
+	if (area === 0) {
+		// Polygon is so small that all points are on same pixel.
+		center = points[0];
+	} else {
+		center = [x / area, y / area];
+	}
+
+	var latlngCenter = crs.unproject(toPoint(center));
+	return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
+}
+
+/* @function centroid(latlngs: LatLng[]): LatLng
+ * Returns the 'center of mass' of the passed LatLngs.
+ */
+export function centroid(coords) {
+	var latSum = 0;
+	var lngSum = 0;
+	var len = 0;
+	for (var i = 0; i < coords.length; i++) {
+		var latlng = toLatLng(coords[i]);
+		latSum += latlng.lat;
+		lngSum += latlng.lng;
+		len++;
+	}
+	return toLatLng([latSum / len, lngSum / len]);
 }

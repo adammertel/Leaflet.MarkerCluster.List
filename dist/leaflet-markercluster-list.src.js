@@ -4,8 +4,8 @@
   Adam Mertel | univie
 */
 /* global L:true, document: true */
-
 /* eslint no-underscore-dangle: 0 */
+
 'use strict';
 
 L.MarkerCluster.List = L.Control.extend({
@@ -18,7 +18,6 @@ L.MarkerCluster.List = L.Control.extend({
   },
   onAdd: function onAdd(map) {
     var _this = this;
-
     var container = L.DomUtil.create('div', 'markercluster-list leaflet-bar');
     map.setListContainer(container);
     setTimeout(function () {
@@ -34,7 +33,6 @@ L.MarkerCluster.List = L.Control.extend({
   },
   show: function show(data) {
     var _this2 = this;
-
     var markers = data.markers;
     var cluster = data.cluster;
     var orderedMarkers = markers.sort(this.options.sortFn);
@@ -56,7 +54,6 @@ L.MarkerCluster.List = L.Control.extend({
   },
   sidePanelBindEvent: function sidePanelBindEvent() {
     var _this3 = this;
-
     if (this.isSidePanel()) {
       var sideButton = document.getElementById('cluster-list-side-panel-button');
       sideButton.addEventListener('click', function () {
@@ -66,13 +63,11 @@ L.MarkerCluster.List = L.Control.extend({
   },
   sidePanelBuild: function sidePanelBuild() {
     var html = '';
-
     if (this.isSidePanel()) {
       html += "<div class=\"cluster-list-side-panel\" style=\"width: " + this.sidePanelWidth() + "px\">";
       html += '<button id="cluster-list-side-panel-button" class="cluster-list-side-panel-button" value="x" ></button>';
       html += '</div>';
     }
-
     return html;
   },
   isSidePanel: function isSidePanel() {
@@ -91,13 +86,12 @@ L.MarkerCluster.List = L.Control.extend({
     this.updateContent('');
   }
 });
-
 L.markerClusterGroup.list = function (group, options) {
   return new L.MarkerCluster.List(group, options);
 };
 /* global L:true */
-
 /* eslint no-underscore-dangle: 0 */
+
 'use strict';
 
 L.MarkerCluster.ListMarker = L.CircleMarker.extend({
@@ -117,13 +111,12 @@ L.MarkerCluster.ListMarker = L.CircleMarker.extend({
     L.CircleMarker.prototype.initialize.call(this, latlng, options);
   }
 });
-
 L.markerClusterGroup.listMarker = function (latlng, options) {
   return new L.MarkerCluster.ListMarker(latlng, options);
 };
 /* global L:true */
-
 /* eslint no-underscore-dangle: 0 */
+
 'use strict';
 
 L.MarkerCluster.include({
@@ -131,7 +124,6 @@ L.MarkerCluster.include({
   _unspiderfy: L.MarkerCluster.prototype.unspiderfy,
   spiderfy: function spiderfy() {
     var group = this._group;
-
     if (group.options.list) {
       var childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
@@ -139,9 +131,7 @@ L.MarkerCluster.include({
         cluster: this,
         markers: childMarkers
       });
-
       this._map.on('click', this.unspiderfy, this);
-
       group.unassignSelectedClass();
       this.assignSelectedClass();
     } else {
@@ -151,7 +141,6 @@ L.MarkerCluster.include({
   unspiderfy: function unspiderfy() {
     var group = this._group;
     group.unassignSelectedClass();
-
     if (group.options.list) {
       var childMarkers = this.getAllChildMarkers();
       group._spiderfied = this;
@@ -174,13 +163,12 @@ L.Map = L.Map.include({
   },
   remove: function remove() {
     this.listContainer.remove();
-
     this._remove();
   }
 });
 /* global L:true, document: true */
-
 /* eslint no-underscore-dangle: 0 */
+
 'use strict';
 
 L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
@@ -205,15 +193,13 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   },
   onAdd: function onAdd(map) {
     var _this = this;
-
     this.list = L.markerClusterGroup.list(this, this.options);
     this.list.addTo(map);
     this.on('spiderfied', function (data) {
       if (_this.options.centerOnChange) {
         map.panTo(data.cluster.getLatLng());
-      } // console.log('*****on spiderfied*******')
-
-
+      }
+      // console.log('*****on spiderfied*******')
       _this.refreshList(data);
     });
     this.on('unspiderfied', function () {
@@ -243,11 +229,9 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
   unassignSelectedClass: function unassignSelectedClass() {
     var selectedClusterElements = document.getElementsByClassName('marker-cluster-selected');
     var selectedClusterArray = [];
-
     for (var i = 0; i < selectedClusterElements.length; i++) {
       selectedClusterArray.push(selectedClusterElements[i]);
     }
-
     ;
     selectedClusterArray.map(function (mc) {
       console.log(mc);
@@ -255,7 +239,6 @@ L.MarkerClusterGroup.WithList = L.MarkerClusterGroup.extend({
     });
   }
 });
-
 L.markerClusterGroup.withList = function (options) {
   return new L.MarkerClusterGroup.WithList(options);
 };

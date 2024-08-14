@@ -9,35 +9,45 @@
   left: 20px;
   right: 20px;
   top: 20px;
-  z-index: 9999; }
-  .markercluster-list .table-wrapper {
-    background-color: lightgrey; }
+  z-index: 9999;
+}
+.markercluster-list .table-wrapper {
+  background-color: lightgrey;
+}
 
 .cluster-list-header {
-  padding: 0px 10px; }
+  padding: 0px 10px;
+}
 
 .markercluster-list .table-wrapper {
   overflow-y: auto;
-  max-height: 200px; }
-  .markercluster-list .table-wrapper table {
-    width: 100%; }
-    .markercluster-list .table-wrapper table tbody tr td {
-      padding: 5px; }
-    .markercluster-list .table-wrapper table tbody tr.cluster-list-row-even {
-      background-color: grey; }
+  max-height: 200px;
+}
+.markercluster-list .table-wrapper table {
+  width: 100%;
+}
+.markercluster-list .table-wrapper table tbody tr td {
+  padding: 5px;
+}
+.markercluster-list .table-wrapper table tbody tr.cluster-list-row-even {
+  background-color: grey;
+}
 
 .cluster-list-side-panel {
   height: 100%;
   position: absolute;
   right: 0px;
-  top: 0px; }
+  top: 0px;
+}
 
 .marker-cluster.marker-cluster-selected {
   font-weight: 800;
-  color: white; }
-  .marker-cluster.marker-cluster-selected div {
-    font-size: 120%;
-    font-weight: bold; }
+  color: white;
+}
+.marker-cluster.marker-cluster-selected div {
+  font-size: 120%;
+  font-weight: bold;
+}
 
 .cluster-list-side-panel-button {
   padding: 5px;
@@ -49,6 +59,8 @@
   border: none;
   width: 80%;
   height: 30px;
-  cursor: pointer; }
-  .cluster-list-side-panel-button:after {
-    content: "x"; }
+  cursor: pointer;
+}
+.cluster-list-side-panel-button:after {
+  content: "x";
+}

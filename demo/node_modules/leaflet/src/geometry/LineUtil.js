@@ -1,5 +1,8 @@
-import {Point} from './Point';
+import {Point, toPoint} from './Point';
 import * as Util from '../core/Util';
+import {toLatLng} from '../geo/LatLng';
+import {centroid} from './PolyUtil';
+import {toLatLngBounds} from '../geo/LatLngBounds';
 
 
 /*
@@ -14,11 +17,11 @@ import * as Util from '../core/Util';
 // @function simplify(points: Point[], tolerance: Number): Point[]
 // Dramatically reduces the number of points in a polyline while retaining
 // its shape and returns a new array of simplified points, using the
-// [Douglas-Peucker algorithm](http://en.wikipedia.org/wiki/Douglas-Peucker_algorithm).
+// [Ramer-Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm).
 // Used for a huge performance boost when processing/displaying Leaflet polylines for
 // each zoom level and also reducing visual noise. tolerance affects the amount of
 // simplification (lesser value means higher quality but slower and with more points).
-// Also released as a separated micro-library [Simplify.js](http://mourner.github.com/simplify-js/).
+// Also released as a separated micro-library [Simplify.js](https://mourner.github.io/simplify-js/).
 export function simplify(points, tolerance) {
 	if (!tolerance || !points.length) {
 		return points.slice();
@@ -47,7 +50,7 @@ export function closestPointOnSegment(p, p1, p2) {
 	return _sqClosestPointOnSegment(p, p1, p2);
 }
 
-// Douglas-Peucker simplification, see http://en.wikipedia.org/wiki/Douglas-Peucker_algorithm
+// Ramer-Douglas-Peucker simplification, see https://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 function _simplifyDP(points, sqTolerance) {
 
 	var len = points.length,
@@ -239,4 +242,65 @@ export function isFlat(latlngs) {
 export function _flat(latlngs) {
 	console.warn('Deprecated use of _flat, please use L.LineUtil.isFlat instead.');
 	return isFlat(latlngs);
+}
+
+/* @function polylineCenter(latlngs: LatLng[], crs: CRS): LatLng
+ * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polyline.
+ */
+export function polylineCenter(latlngs, crs) {
+	var i, halfDist, segDist, dist, p1, p2, ratio, center;
+
+	if (!latlngs || latlngs.length === 0) {
+		throw new Error('latlngs not passed');
+	}
+
+	if (!isFlat(latlngs)) {
+		console.warn('latlngs are not flat! Only the first ring will be used');
+		latlngs = latlngs[0];
+	}
+
+	var centroidLatLng = toLatLng([0, 0]);
+
+	var bounds = toLatLngBounds(latlngs);
+	var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+	// tests showed that below 1700 rounding errors are happening
+	if (areaBounds < 1700) {
+		// getting a inexact center, to move the latlngs near to [0, 0] to prevent rounding errors
+		centroidLatLng = centroid(latlngs);
+	}
+
+	var len = latlngs.length;
+	var points = [];
+	for (i = 0; i < len; i++) {
+		var latlng = toLatLng(latlngs[i]);
+		points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+	}
+
+	for (i = 0, halfDist = 0; i < len - 1; i++) {
+		halfDist += points[i].distanceTo(points[i + 1]) / 2;
+	}
+
+	// The line is so small in the current view that all points are on the same pixel.
+	if (halfDist === 0) {
+		center = points[0];
+	} else {
+		for (i = 0, dist = 0; i < len - 1; i++) {
+			p1 = points[i];
+			p2 = points[i + 1];
+			segDist = p1.distanceTo(p2);
+			dist += segDist;
+
+			if (dist > halfDist) {
+				ratio = (dist - halfDist) / segDist;
+				center = [
+					p2.x - ratio * (p2.x - p1.x),
+					p2.y - ratio * (p2.y - p1.y)
+				];
+				break;
+			}
+		}
+	}
+
+	var latlngCenter = crs.unproject(toPoint(center));
+	return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
 }

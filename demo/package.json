@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.4.1",
-    "leaflet": "^1.6.0",
-    "leaflet.markercluster": "^1.4.1",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
     "leaflet.markercluster.placementstrategies": "^0.1.8"
   }
 }
